@@ -35,6 +35,17 @@
                   </div>
                 </form>
               </div>
+              <div class="mb-3 toolbar row">
+                <div class="ml-auto col">
+                    <div class="float-right dropdown">
+                      <button class="float-right ml-3 btn btn-primary"
+                      class="btn botao" data-toggle="modal" data-target="#ModalCreate"
+                      type="button">Emitir um documento</button>
+
+                    </div>
+                </div>
+
+              </div>
               <!-- table -->
               <table class="table table-borderless table-hover">
                 <thead class="thead-dark">
@@ -84,6 +95,27 @@
     </div> <!-- .col-12 -->
   </div> <!-- .row -->
 </div> <!-- .container-fluid -->
+<div class="text-left modal fade" id="ModalCreate" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title">{{ __('Emissão de Documentos') }}</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <form action="{{route('admin.servico.emitirDocumento')}}" target="_blank" method="post" enctype="multipart/form-data">
+                  @csrf
+                  <div class="card-body">
+                      @include('_form.emitirDocumentoForm.index')
+                      <button type="submit" class="btn btn-primary w-md">Cadastrar</button>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
 @if (session('servico.destroy.success'))
     <script>
         Swal.fire(

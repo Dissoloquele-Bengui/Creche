@@ -81,13 +81,13 @@ Route::prefix('loja/site')->middleware('auth')->group(function () {
     Route::post('comentarios', ['as' => 'loja.site.comentarios', 'uses' => 'App\Http\Controllers\SITE\LojaController@comentarios']);
     //Rota para gerar facturas gerarFatura
     Route::post('checkout', ['as' => 'loja.site.checkout', 'uses' => 'App\Http\Controllers\SITE\LojaController@checkout']);
-    Route::get('gerarFatura', ['as' => 'loja.site.gerarFatura', 'uses' => 'App\Http\Controllers\SITE\LojaController@gerarFatura']);
+    Route::get('gerarFatura/{id}', ['as' => 'loja.site.gerarFatura', 'uses' => 'App\Http\Controllers\SITE\LojaController@gerarFatura']);
     //Rota para enviar a fatura
     Route::post('enviarFatura', ['as' => 'loja.site.enviarFatura', 'uses' => 'App\Http\Controllers\SITE\LojaController@enviarFatura']);
     //Rota para ver o tabuleiro
-    Route::get('tabuleiro', ['as' => 'loja.site.tabuleiro', 'uses' => 'App\Http\Controllers\SITE\LojaController@tabuleiro']);
+    Route::get('tabuleiro/{id}', ['as' => 'loja.site.tabuleiro', 'uses' => 'App\Http\Controllers\SITE\LojaController@tabuleiro']);
     //Rota para actualizar o tabuleiro
-    Route::post('updateCarrinho', ['as' => 'loja.site.updateCarrinho', 'uses' => 'App\Http\Controllers\SITE\LojaController@updateTabuleiro']);
+    Route::post('updateCarrinho/{id}', ['as' => 'loja.site.updateCarrinho', 'uses' => 'App\Http\Controllers\SITE\LojaController@updateTabuleiro']);
 
     //Rota para adicionar um produtos ao carrinho
     Route::get('addProdutoCart/{id}', ['as' => 'loja.site.addProdutoCart', 'uses' => 'App\Http\Controllers\SITE\LojaController@addProdutoCart']);

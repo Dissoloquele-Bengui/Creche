@@ -6,8 +6,9 @@
         @if (!isset($login))
             @if (Auth::user()->tipo == "Aluno")
                 @include('layout.admin.menu2')
+            @elseif(Auth::user()->tipo=="Prestador de Serviços")
+                @include('layout.admin.menu3')
             @else
-
                 @include('layout.admin.menu')
             @endif
         @else

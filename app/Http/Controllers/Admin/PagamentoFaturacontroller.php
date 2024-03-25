@@ -21,10 +21,11 @@ class PagamentoFaturaController extends Controller
     public function index()
     {
             
-
+        $lojas= getLojas();
         $data['vendas']=PagamentoFatura::join('faturas','pagamento_faturas.id_fatura','faturas.id')
             ->join('users','faturas.id_usuario','users.id')
             ->select('faturas.*','users.name as cliente','pagamento_faturas.id as id_pagamento','pagamento_faturas.caminho as caminho')
+            ->whereIn('faturas.id_loja',$lojas->pluck('id')->toArray())
             ->get();
        // dd($data['vendas']);
 

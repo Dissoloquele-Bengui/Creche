@@ -26,8 +26,8 @@ class LojaController extends Controller
 
 
     public function index(){
-        $data['lojas']=null;
-        if(!isset(Auth::user()->tipo)){
+        $data['lojas']=getLojas();
+        /*if(!isset(Auth::user()->tipo)){
             $data['lojas']=Loja::all();
         }else{
             $data['lojas']=Gestor::join('lojas','gestores.id_loja','lojas.id')
@@ -35,7 +35,7 @@ class LojaController extends Controller
                 ->where('id_usuario',Auth::user()->id)
                 ->get()
                 ->unique('id');
-        }
+        }*/
         //dd($data['loja']);
         $this->loggerData("Listou Lojas");
 
@@ -66,9 +66,12 @@ class LojaController extends Controller
                 'classificacao'=>0,
                 //'vc_imagem'=>$this->upload($request->imagem)
             ]);
-
+            Gestor::create([
+                'id_usuario'=>$request->id_user,
+                'id_loja'=>$loja->id
+            ]);
             $this->loggerData(" Cadastrou o loja " . $request->nome);
-            dd($loja);
+           // dd($loja);
             return redirect()->back()->with('loja.create.success',1);
 
         } catch (\Throwable $th) {

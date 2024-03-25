@@ -175,6 +175,7 @@ Route::prefix('admin')->group(function(){
         Route::get('index', ['as' => 'admin.servico.index', 'uses' => 'App\Http\Controllers\DP\ServicoController@index']);
         Route::get('create', ['as' => 'admin.servico.create', 'uses' => 'App\Http\Controllers\DP\ServicoController@create']);
         Route::post('store', ['as' => 'admin.servico.store', 'uses' => 'App\Http\Controllers\DP\ServicoController@store']);
+        Route::post('emitirDocumento', ['as' => 'admin.servico.emitirDocumento', 'uses' => 'App\Http\Controllers\DP\ServicoController@emitirDocumento']);
         Route::get('edit/{id}', ['as' => 'admin.servico.edit', 'uses' => 'App\Http\Controllers\DP\ServicoController@edit']);
         Route::post('update/{id}', ['as' => 'admin.servico.update', 'uses' => 'App\Http\Controllers\DP\ServicoController@update']);
         Route::get('destroy/{id}', ['as' => 'admin.servico.destroy', 'uses' => 'App\Http\Controllers\DP\ServicoController@destroy']);

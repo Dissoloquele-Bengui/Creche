@@ -414,7 +414,7 @@
                     </a>
                 </li>
             @endif
-            @if (Auth::user()->tipo == "Prestador de Serviços")
+            @if (Auth::user()->tipo=="Administrador"||Auth::user()->tipo == "Prestador de Serviços")
                 <li class="nav-item dropdown">
                     <a href="{{ route('admin.loja.index') }}"  class=" nav-link">
                         <i class="fe fe-calendar fe-16"></i> <!-- Ícone de "calendário" para "Ano Lectivo" -->

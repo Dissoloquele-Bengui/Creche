@@ -12,7 +12,7 @@
 
     <div class="col-md-6">
         <div class="form-group mb-3">
-            <label for="curso_id">Curso</label>
+            <label for="curso_id">Disciplina</label>
             <select name="curso_classe_disciplina_id" required class="form-control" id="">
                 @foreach (getCursoClasseDisciplinas() as $curso)
                     <option value="{{$curso->id}}" @if (isset($plano_aula)){{ $plano_aula->curso_id==$curso->id ?'selected':'' }}  @endif> {{$curso->disciplina." | ".$curso->classe." | ".$curso->curso}} </option>

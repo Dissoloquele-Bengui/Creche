@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Gestor;
 use App\Models\Logger;
+use App\Models\Loja;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,9 +29,15 @@ class UserController extends Controller
 
     public function index(){
 
-
+        if(Auth::user()->tipo=="Prestador de Serviços"){
+            
+            $data['usuarios'] = getGestores();
+            
+        }else{
             $data['usuarios'] = User::all();
-        //dd($data['usuarios']);
+        
+        }
+        //$data['lojas']=Loja::all();
         $this->loggerData("Listou Usuários");
 
         return view('admin.usuario.index', $data);

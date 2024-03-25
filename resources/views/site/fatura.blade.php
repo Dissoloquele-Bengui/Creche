@@ -89,7 +89,9 @@
                 </thead>
                 <tbody>
                     <tr style="border: none">
-                        <td >{{ $fatura->endereco }}  <br>
+                        <td >
+                            Loja: {{$fatura->loja}} <br>
+                            Endereço {{ $fatura->endereco }}  <br>
                             EMAIL: {{ $fatura->email }}<br>
                             TELEFONE: {{ $fatura->telefone }}
                         </td>

@@ -35,7 +35,7 @@
 								</tr>
 							</thead>
 							<tbody>
-                                <form action="{{route('loja.site.updateCarrinho')}}" method="POST" id="form_tabuleiro">
+                                <form action="{{route('loja.site.updateCarrinho',['id'=>$id_loja])}}" method="POST" id="form_tabuleiro">
                                     @csrf
                                     @foreach ($produtos as $produtos)                                   
                                         <tr class="table-body-row">
@@ -86,12 +86,10 @@
                                 <a id="submit" href="#" class="boxed-btn">Actualizar o Carrinho</a>
                             </div>
                             <div class="cart-buttons col-md-6">
-                                <a href="{{route('loja.site.gerarFatura')}}" class="boxed-btn">Gerar Fatura(s)</a>
+                                <a href="{{route('loja.site.gerarFatura',['id'=>$id_loja])}}" class="boxed-btn">Gerar Fatura(s)</a>
                             </div>
-							<div class="cart-buttons col-md-6">
-                                
-								<a class="boxed-btn " data-toggle="modal" data-target="#ModalCreate"
-								>Enviar Comprovativo</a>
+							<div class="cart-buttons col-md-6">                                
+								<a class="boxed-btn " data-toggle="modal" data-target="#ModalCreate"> Enviar Comprovativo </a>
                             </div>
                         </div>
 					</div>

@@ -186,30 +186,49 @@ class LojaController extends Controller
         }
     }
 
-    public function tabuleiro(){
+    public function tabuleiro($id){
+        $id_loja = $id;
         $data['produtos'] = Tabuleiro::join('produtos','tabuleiros.id_produto','produtos.id')
             ->select('produtos.*','tabuleiros.qtd as quantidade','tabuleiros.id as id_tabuleiro')
-            ->where('id_usuario',Auth::user()->id)
+            ->where('id_usuario',$id_usuario)
+            ->where('produtos.id_loja',$id_loja)
             ->get();
-            $total= 0;
+        $data['id_loja']=$id_loja;
+        //dd($data);
+        $total=0;
+        if(isset($data['produtos'])){
+            foreach($data['produtos'] as $produto){
+                $total += $produto->quantidade * $produto->preco;
+            }
+        }
+        $data['total']=$total;
+        return view("site.tabuleiro", $data);
+    }
+    public function updateTabuleiro(Request $request,$id_loja){
+        //dd($id);
+        try{
+            foreach($request->product as $id => $qtd){
+                Tabuleiro::find($id)->update([
+                    'qtd'=>$qtd
+                ]);
+            }
+            //$id_loja = $id;
+            $data['produtos'] = Tabuleiro::join('produtos','tabuleiros.id_produto','produtos.id')
+                ->select('produtos.*','tabuleiros.qtd as quantidade','tabuleiros.id as id_tabuleiro')
+                ->where('id_usuario',Auth::user()->id)
+                ->where('produtos.id_loja',$id_loja)
+                ->get();
+            $data['id_loja']=$id_loja;
+            //dd($data);
+            $total=0;
             if(isset($data['produtos'])){
                 foreach($data['produtos'] as $produto){
                     $total += $produto->quantidade * $produto->preco;
                 }
             }
             $data['total']=$total;
-        return view("site.tabuleiro", $data);
-    }
-    public function updateTabuleiro(Request $request){
-        //dd($request);
-        try{
-            foreach($request->product as $id => $qtd){
-                //dd($request);
-                Tabuleiro::find($id)->update([
-                    'qtd'=>$qtd
-                ]);
-            }
-            return redirect()->route('loja.site.tabuleiro')->with('loja.updateTabuleiro',1);
+            return view("site.tabuleiro", $data)->with('loja.updateTabuleiro',1);
+            //return redirect()->route('loja.site.tabuleiro')->with('loja.updateTabuleiro',1);
             //dd($request->product);
         }catch(\Throwable $th){
             throw $th;
@@ -285,10 +304,13 @@ class LojaController extends Controller
                 'qtd'=>1
             ]);
         }
+        $id_loja = Produto::findOrfail($id)->id_loja;
         $data['produtos'] = Tabuleiro::join('produtos','tabuleiros.id_produto','produtos.id')
             ->select('produtos.*','tabuleiros.qtd as quantidade','tabuleiros.id as id_tabuleiro')
             ->where('id_usuario',$id_usuario)
+            ->where('produtos.id_loja',$id_loja)
             ->get();
+        $data['id_loja']=$id_loja;
         //dd($data);
         $total=0;
         if(isset($data['produtos'])){
@@ -297,7 +319,7 @@ class LojaController extends Controller
             }
         }
         $data['total']=$total;
-        return redirect()->route('loja.site.tabuleiro')->with($data);
+        //return redirect()->route('loja.site.tabuleiro')->with(compact($data));
         return view("site.tabuleiro", $data);
     }
 
@@ -328,15 +350,83 @@ class LojaController extends Controller
         return view('site.livro');
     }
 
-    public function gerarFatura(){
+    public function gerarFatura($id_loja){
         $id_usuario=Auth::id();   
         $data['produtos'] = Tabuleiro::join('produtos','tabuleiros.id_produto','produtos.id')
-            ->select('produtos.*','tabuleiros.qtd as quantidade','tabuleiros.id as id_tabuleiro')
+            ->join('lojas','produtos.id_loja','lojas.id')
+            ->select('produtos.*','tabuleiros.qtd as quantidade','lojas.nome as loja','tabuleiros.id as id_tabuleiro')
             ->where('id_usuario',$id_usuario)
+            ->where('produtos.id_loja',$id_loja)
             ->get();
-
+        /*$data['lojas']=$data['produtos']->groupBy('id_loja')
+            ->pluck('loja')
+            ->toArray();*/
+        //dd($data['produtos']->groupBy('id_loja'));
         $total=0;
-        if(isset($data['produtos'])){
+        foreach($data['produtos']->groupBy('id_loja') as $loja => $produtos){
+            $total = 0; // reiniciar o total a cada iteração
+            foreach($produtos as $produto){// Achando o preço pagar na fatura
+                $total += $produto->quantidade * $produto->preco;    
+            }
+        
+            // Criação da Fatura
+            $fatura=Fatura::create([
+                'data'=>Carbon::now(),
+                'total'=>$total,
+                'it_estado'=>2,
+                'cliente'=>Auth::user()->name,
+                'email'=>Auth::user()->email,
+                'telefone'=>"958070350",
+                'endereco'=>Auth::user()->endereco,
+                'id_usuario'=>$id_usuario,
+                'id_loja'=>$loja
+            ]);
+            $fatura->loja = "Não encontrada";
+            // Registrando as compras
+        
+            foreach($produtos as $produto){
+                if(!Compra::where('id_produto',$produto->id)
+                    ->where('id_usuario',Auth::id())
+                    ->where('it_estado',2)
+                    ->where('id_fatura',$fatura->id)
+                    ->exists()){
+                    Compra::create([
+                        'id_produto'=>$produto->id,
+                        'id_usuario'=>$id_usuario,
+                        //'id_cheque'=>$cheque->id,
+                        'id_fatura'=>$fatura->id,
+                        'qtd'=>$produto->quantidade,
+                        'valor'=>$produto->quantidade * $produto->preco,
+                        'it_estado'=>2,
+                        //'id_loja'=>$loja,
+                    ]);
+                    if($fatura->loja != $produto->loja){
+                        $fatura->loja = $produto->loja;
+                    }
+                    $qtd = Produto::find($produto->id)->qtd;
+                    Produto::find($produto->id)->update([
+                        'qtd'=>($qtd-$produto->quantidade)
+                    ]);
+        
+                }
+            }
+            $data['fatura']=$fatura;
+            $data['fatura']->valor_total=$produtos->sum('preco');
+            $data['produtos']=$produtos;
+            $html = view("site/fatura",$data);
+            $mpdf = new Mpdf(['mode' => 'utf-8', 'format' => 'A4-P']);
+            $mpdf->SetFont("arial");
+            $mpdf->setHeader();
+            $mpdf->AddPage();
+            // Nome exclusivo para cada arquivo PDF
+            $pdfFileName = "Fatura Nº".$data['fatura']->id."/2024" . ".pdf";
+            $mpdf->WriteHTML($html);
+            // Saída do PDF com o nome exclusivo
+            $mpdf->Output($pdfFileName, "D");
+        }
+        
+
+        /*if(isset($data['produtos'])){
             foreach($data['produtos'] as $produto){
                 $total += $produto->quantidade * $produto->preco;
             }
@@ -391,19 +481,17 @@ class LojaController extends Controller
 
                 }
             }
-        }
+        }*/
         //dd($data['produtos']);
-        $data['fatura']->valor_total=$data['produtos']->sum('preco');
+       /* $data['fatura']->valor_total=$data['produtos']->sum('preco');
 
         $html = view("site/fatura",$data);
         $mpdf = new Mpdf(['mode' => 'utf-8', 'format' => 'A4-P']);
         $mpdf->SetFont("arial");
         $mpdf->setHeader();
         $mpdf->AddPage();
-        //$mpdf->WriteHTML($css, \Mpdf\HTMLParserMode::HEADER_CSS);
-        //$mpdf->WriteHTML($css1, \Mpdf\HTMLParserMode::HEADER_CSS);
         $mpdf->WriteHTML($html);
-        $mpdf->Output("Fatura Nº".$data['fatura']->id."/2024" . ".pdf", "D");
+        $mpdf->Output("Fatura Nº".$data['fatura']->id."/2024" . ".pdf", "D");*/
     }
     public function enviarFatura(Request $request){
         try{
@@ -414,8 +502,8 @@ class LojaController extends Controller
            return redirect()->back()->with('pagamento.create.success',1);
 
         }catch(Throwable $th){
-            throw $th;
-            dd($th);
+           // throw $th;
+            //dd($th);
             return redirect()->back()->with('pagamento.create.error',1);
         }
     }

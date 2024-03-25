@@ -30,7 +30,7 @@ class ProdutoController extends Controller
 
 
     public function index(){
-        if(!isset(Auth::user()->nivel)){
+        if(Auth::user()->tipo == "Administrador"){
             $lojas=Loja::all();
         }else{
             $lojas=Gestor::join('lojas','gestores.id_loja','lojas.id')

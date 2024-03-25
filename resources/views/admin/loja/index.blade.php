@@ -11,9 +11,6 @@
       <div class="row">
         <!-- Small table -->
         <div class="my-4 col-md-12">
-            <h2 class="">
-              Lista das  Lojas
-            </h2>
           <div class="p-3 shadow card">
             <div class="card-body">
               <div class="mb-3 toolbar row">
@@ -24,7 +21,7 @@
                       type="button">Adicionar +</button>
 
                     </div>
-                  </div>
+                </div>
 
               </div>
               <!-- table -->

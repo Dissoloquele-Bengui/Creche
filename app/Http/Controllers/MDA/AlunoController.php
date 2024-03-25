@@ -32,7 +32,7 @@ class AlunoController extends Controller
     public function boletim()
     {
         //
-        $dados['disciplinas']=Disciplina::all();
+//        $dados['disciplinas']=Disciplina::all();
         $id_aluno = Auth::id();
         $aluno = Aluno::join('matriculas', 'alunos.id', '=', 'matriculas.aluno_id')
             ->join('turmas', 'turmas.id', '=', 'matriculas.turma_id')
@@ -406,6 +406,6 @@ class AlunoController extends Controller
         $mpdf->setHeader();
         $mpdf->AddPage();
         $mpdf->WriteHTML($html);
-        $mpdf->Output("Manual dos Códigos" . ".pdf", "D");
+        $mpdf->Output("REFERÊNCIA DE PAGAMENTO ÚNICO AO ESTADO(RUPE)" . ".pdf", "D");
     }
 }

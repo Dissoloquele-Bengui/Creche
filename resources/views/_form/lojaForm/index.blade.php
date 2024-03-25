@@ -24,4 +24,14 @@
             <input type="file"    name="imagem" class="form-control"  {{!isset($loja)?'required':''}}>
         </div>
     </div>
+    <div class="col-md-12 hidden">
+        <div class="mb-3 form-group">
+            <label for="tipo">Gerente*</label>
+            <select name="id_user" id="nivel{{isset($loja)?$loja->id:''}}" class="form-control select2" required>
+                @foreach (getPrestadorServico() as $user)
+                    <option value="{{$user->id}}">{{$user->name}}</option>                    
+                @endforeach
+            </select>
+        </div>
+    </div> 
 </div>
