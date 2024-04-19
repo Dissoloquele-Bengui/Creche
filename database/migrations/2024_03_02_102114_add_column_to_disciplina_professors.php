@@ -26,7 +26,7 @@ return new class extends Migration
 
         });*/
         //dd(            DB::statement('select * disciplina_professors '));
-        Schema::table('disciplina_professors', function (Blueprint $table) {
+        /*Schema::table('disciplina_professors', function (Blueprint $table) {
             // Add a new column with the desired name
 
             // Copy data from the old column to the new one
@@ -38,7 +38,7 @@ return new class extends Migration
             // Add foreign key constraint to the new column
             DB::statement('delete from disciplina_professors where curso_classe_disciplina_id is not null');
             $table->foreign('curso_classe_disciplina_id')->references('id')->on('curso_classe_disciplinas')->onDelete('cascade');
-        });
+        });*/
       //  dd(            DB::statement('select * disciplina_professors '));
     }
 

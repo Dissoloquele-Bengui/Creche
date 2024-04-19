@@ -6,6 +6,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Schema;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,10 +23,19 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+        //\App\Models\User::find(1)->forcedelete();
+        $tableName = (new \App\Models\User())->getTable();
+
+        // Obter os nomes das colunas da tabela
+        $columns = Schema::getColumnListing($tableName);
+
+        // Exibir os nomes das colunas
+        //dd($columns);
         DB::table('users')->insert([
             'name' => 'Dissoloquele',
             'email' => 'mysge@gmail.com',
             'password' => Hash::make('12345678'),
+            'tipo'=>"Administrador"
         ]);
     }
 }
