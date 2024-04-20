@@ -21,8 +21,7 @@ class TurmaController extends Controller
     {
         $turmas =Turma::join('classes', 'turmas.idClasse', '=', 'classes.id')
             ->join('ano_lectivos', 'turmas.idAno', '=', 'ano_lectivos.id')
-            ->join('cursos', 'cursos.id', '=', 'turmas.idCurso')
-            ->select('turmas.*','classes.nome as classe','cursos.nome as curso','ano_lectivos.data_inicio as data_inicio', 'ano_lectivos.data_fim as data_fim', 'ano_lectivos.id as idAno')
+            ->select('turmas.*','classes.nome as classe','ano_lectivos.data_inicio as data_inicio', 'ano_lectivos.data_fim as data_fim', 'ano_lectivos.id as idAno')
             ->get();
             return view('admin.turma.index',['turmas'=>$turmas]);
     }
@@ -54,7 +53,7 @@ class TurmaController extends Controller
             //dd($request);
             $turma = Turma::create([
                 'nome' => $request->nome,
-                'idCurso' => $request->idCurso,
+
                 'idClasse' => $request->idClasse,
                 'idAno' => $request->idAno,
                 'limite'=>$request->limite
@@ -123,7 +122,7 @@ class TurmaController extends Controller
 
             $turma = Turma::findOrFail($id)->update([
                 'nome' => $request->nome,
-                'idCurso' => $request->idCurso,
+
                 'idClasse' => $request->idClasse,
                 'idAno' => $request->idAno,
                 'limite'=>$request->limite

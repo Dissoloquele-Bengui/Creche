@@ -12,9 +12,9 @@ class Aluno extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'primeiro_nome',
+        'nome',
         'idade',
-        'ultimo_nome',
+        'sobrenome',
         'data_nascimento',
         'genero',
         'nacionalidade',

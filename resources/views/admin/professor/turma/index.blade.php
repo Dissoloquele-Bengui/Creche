@@ -103,7 +103,7 @@
 @if (session('professorTurma.purge.success'))
     <script>
         Swal.fire(
-            'Vinculo de Professor e Turma Purgado com sucesso!',
+            'Vinculo de Educador e Turma Purgado com sucesso!',
             '',
             'success'
         )
@@ -112,7 +112,7 @@
 @if (session('professorTurma.purge.error'))
     <script>
         Swal.fire(
-            'Erro ao Purgar Vinculo de Professor e Turma!',
+            'Erro ao Purgar Vinculo de Educador e Turma!',
             '',
             'error'
         )
@@ -121,7 +121,7 @@
 @if (session('professorTurma.destroy.success'))
     <script>
         Swal.fire(
-            'Vinculo de Professor e Turma Eliminado com sucesso!',
+            'Vinculo de Educador e Turma Eliminado com sucesso!',
             '',
             'success'
         )
@@ -130,7 +130,7 @@
 @if (session('professorTurma.destroy.error'))
     <script>
         Swal.fire(
-            'Erro ao Eliminar Vinculo de Professor e Turma!',
+            'Erro ao Eliminar Vinculo de Educador e Turma!',
             '',
             'error'
         )

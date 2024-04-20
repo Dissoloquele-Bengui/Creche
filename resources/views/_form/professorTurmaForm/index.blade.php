@@ -2,7 +2,7 @@
     <div class="col-md-6">
 
         <div class="form-group mb-3">
-            <label for="professor_id">Professor</label>
+            <label for="professor_id">Educador</label>
             <select name="professor_id" class="form-control" id="">
                 @if (isset($professor))
                     <option value="{{$professor->id}}" > {{$professor->nome}} </option>

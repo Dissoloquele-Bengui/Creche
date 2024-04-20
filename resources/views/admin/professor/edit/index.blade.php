@@ -1,10 +1,10 @@
 @extends('layout.admin.body')
-@section('titulo','Actualizar Professor')
+@section('titulo','Actualizar Educador')
 
 @section('conteudo')
     <div class="card shadow mb-4">
         <div class="card-header">
-        <strong class="card-title">Actualizar Professor</strong>
+        <strong class="card-title">Actualizar Educador</strong>
         </div>
         <form action="{{route('admin.professor.update',$professor->id)}}" method="post">
             @csrf
@@ -17,7 +17,7 @@
 @if (session('professor.update.success'))
     <script>
         Swal.fire(
-            'Professor Actualizado com sucesso!',
+            'Educador Actualizado com sucesso!',
             '',
             'success'
         )
@@ -26,7 +26,7 @@
 @if (session('professor.update.error'))
     <script>
         Swal.fire(
-            'Erro ao Actualizar Professor!',
+            'Erro ao Actualizar Educador!',
             '',
             'error'
         )

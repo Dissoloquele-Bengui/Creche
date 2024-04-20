@@ -17,7 +17,7 @@
 @if (session('professorCurso.create.success'))
     <script>
         Swal.fire(
-            'Vinculo de Professor e Curso efectuado com sucesso!',
+            'Vinculo de Educador e Curso efectuado com sucesso!',
             '',
             'success'
         )
@@ -26,7 +26,7 @@
 @if (session('professorCurso.create.error'))
     <script>
         Swal.fire(
-            'Erro ao tentar Vinculo de Professor e Curso!',
+            'Erro ao tentar Vinculo de Educador e Curso!',
             '',
             'error'
         )

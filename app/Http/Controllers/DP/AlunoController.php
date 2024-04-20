@@ -11,6 +11,7 @@ use App\Models\Logger;
 use App\Models\Matricula;
 use App\Models\User;
 use App\Models\Turma;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -27,12 +28,26 @@ class AlunoController extends Controller
     }
     public function index()
     {
-        $alunos = Aluno::join('users','users.id','alunos.user_id')
-            ->select('users.primeiro_nome','users.ultimo_nome','users.genero','users.numero_bi','users.email','users.data_nascimento','users.endereco','alunos.*')
-            ->where('users.tipo',"Aluno")
+        if(Auth::user()->tipo=="Administrador"){
+            $data['alunos'] = Aluno::leftJoin('users','users.id','alunos.user_id')
+            ->select('users.name as nome_responsavel','users.contacto as contato_responsavel','alunos.*')
             ->get();
-        $this->loggerData(" Listou Alunos");
-        return view('admin.aluno.index',['alunos'=>$alunos]);
+            $data['users']=User::where('tipo',"Encarregado")
+                ->select('users.*')
+                ->get();
+        }else{
+            $data['alunos'] = Aluno::leftJoin('users','users.id','alunos.user_id')
+            ->select('users.name as nome_responsavel','users.contacto as contato_responsavel','alunos.*')
+            ->where('alunos.user_id',Auth::user()->id)
+            ->get();
+            $data['users']=User::where('tipo',"Encarregado")
+                ->select('users.*')
+                ->where('id',Auth::user()->id)
+                ->get();
+        }
+        //dd($data);
+        $this->loggerData(" Listou Crianças");
+        return view('admin.aluno.index',$data);
 
     }
 
@@ -46,6 +61,10 @@ class AlunoController extends Controller
         //
         $data['cursos']=Curso::all();
         $data['classes']=Classe::all();
+        $data['users']=User::where('tipo',"Encarregado")
+        ->select('users.*')
+        ->get();
+
         return view('admin.aluno.create.index',$data);
     }
 
@@ -60,7 +79,7 @@ class AlunoController extends Controller
 
         try {
             //dd($request);
-            $user = User::create([
+            /*$user = User::create([
                 'primeiro_nome' => $request->primeiro_nome,
                 'ultimo_nome' => $request->ultimo_nome,
                 'name'=>$request->primeiro_nome,
@@ -71,29 +90,22 @@ class AlunoController extends Controller
                 'genero' => $request->genero,
                 'tipo'=>"Aluno",
                 'password'=>Hash::make("12345678"),
-            ]);
+            ]);*/
 
             $aluno = Aluno::create([
-
+                'nome' => $request->primeiro_nome,
+                'sobrenome' => $request->ultimo_nome,
+                'data_nascimento' => $request->data_nascimento,
                 'nacionalidade' => $request->nacionalidade,
-                'numero_telefone' => $request->numero_telefone,
-                'nome_responsavel' => $request->nome_responsavel,
-                'numero_telefone' => $request->numero_telefone,
                 'parentesco_responsavel' => $request->parentesco_responsavel,
-                'escola_anterior' => $request->escola_anterior,
-                'numero_telefone' => $request->numero_telefone,
-                'estado_civil' => $request->estado_civil,
                 'naturalidade' => $request->naturalidade,
                 'provincia' => $request->provincia,
                 'deficiencia' => $request->deficiencia,
                 'nome_pai' => $request->nome_pai,
                 'nome_mae' => $request->nome_mae,
-                'contato_responsavel' => $request->contato_responsavel,
-                'user_id'=>$user->id,
-                'idade'=>10
+                'user_id'=>$request->encarregado_id,
             ]);
-            $turmas=Turma::where('idCurso',$request->curso)
-                ->where('idClasse',$request->classe)
+            $turmas=Turma::where('idClasse',$request->classe)
                 ->where('idAno',1)
                 ->get();
 
@@ -127,9 +139,8 @@ class AlunoController extends Controller
      */
     public function show()
     {
-        $alunos = Aluno::join('users','users.id','alunos.user_id')
-            ->select('users.primeiro_nome','users.ultimo_nome','users.genero','users.numero_bi','users.email','users.data_nascimento','users.endereco','alunos.*')
-            ->where('users.tipo',"Aluno")
+        $alunos = Aluno::leftJoin('users','users.id','alunos.user_id')
+            ->select('users.name as nome_responsavel','users.contacto as contato_responsavel','alunos.*')
             ->get();
         return view('admin.aluno.edit.index',['alunos'=>$alunos]);
     }
@@ -144,10 +155,14 @@ class AlunoController extends Controller
         //
         $data['cursos']=Curso::all();
         $data['classes']=Classe::all();
-        $data["aluno"] = Aluno::join('users','users.id','alunos.user_id')
-            ->select('users.primeiro_nome','users.ultimo_nome','users.genero','users.numero_bi','users.email','users.data_nascimento','users.endereco','alunos.*')
+        $data["aluno"] = Aluno::leftJoin('users','users.id','alunos.user_id')
+            ->select('users.name as nome_responsavel','users.contacto as contato_responsavel','alunos.*')
             ->where('alunos.id',$id)
             ->first();
+
+        $data['users']=User::where('tipo',"Encarregado")
+            ->select('users.*')
+            ->get();
 
         return view('admin.aluno.edit.index',$data);
     }
@@ -170,27 +185,18 @@ class AlunoController extends Controller
             //dd($request->numero_bi);
             $aluno = Aluno::find($id);
             Aluno::find($id)->update([
-                'nacionalidade'=>$request->nacionalidade,
-                'numero_telefone'=>$request->numero_telefone,
-                'nome_responsavel'=>$request->nome_responsavel,
-                'nome_pai'=>$request->nome_pai,
-                'nome_mae'=>$request->nome_mae,
-                'contato_responsavel'=>$request->contato_responsavel,
-                'parentesco_responsavel'=>$request->parentesco_responsavel,
-                'escola_anterior'=>$request->escola_anterior,
-                'estado_civil'=>$request->estado_civil,
-                'naturalidade'=>$request->naturalidade,
-                'provincia'=>$request->provincia,
-                'deficiencia'=>$request->deficiencia,
-            ]);
-            User::find($aluno->user_id)->update([
-                'primeiro_nome' => $request->primeiro_nome,
-                'ultimo_nome' => $request->ultimo_nome,
+
+                'nome' => $request->primeiro_nome,
+                'sobrenome' => $request->ultimo_nome,
                 'data_nascimento' => $request->data_nascimento,
-                'endereco' => $request->endereco,
-                'email' => $request->email,
-                'numero_bi' => $request->numero_bi,
-                'genero' => $request->genero,
+                'nacionalidade' => $request->nacionalidade,
+                'parentesco_responsavel' => $request->parentesco_responsavel,
+                'naturalidade' => $request->naturalidade,
+                'provincia' => $request->provincia,
+                'deficiencia' => $request->deficiencia,
+                'nome_pai' => $request->nome_pai,
+                'nome_mae' => $request->nome_mae,
+                'user_id'=>$request->encarregado_id,
             ]);
             //dd($c);
             $this->loggerData(" Editou o aluno  de id".$aluno->id);

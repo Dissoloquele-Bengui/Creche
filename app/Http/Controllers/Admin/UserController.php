@@ -30,12 +30,12 @@ class UserController extends Controller
     public function index(){
 
         if(Auth::user()->tipo=="Prestador de Serviços"){
-            
+
             $data['usuarios'] = getGestores();
-            
+
         }else{
             $data['usuarios'] = User::all();
-        
+
         }
         //$data['lojas']=Loja::all();
         $this->loggerData("Listou Usuários");
@@ -75,6 +75,7 @@ class UserController extends Controller
                 'bi' => $request->numero_bi,
                 'genero' => $request->genero,
                 'tipo'=>$request->tipo,
+                'contacto'=>$request->contacto,
                 'password'=>Hash::make($request->password),
             ]);
 
@@ -148,6 +149,7 @@ class UserController extends Controller
                 'bi' => $request->numero_bi,
                 'genero' => $request->genero,
                 'tipo'=>$request->tipo,
+                'contacto'=>$request->contacto,
                 'password'=>Hash::make($request->password)
             ]);
             //dd($request);

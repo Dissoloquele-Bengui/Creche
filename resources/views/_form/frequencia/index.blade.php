@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-6">
-        <div class="form-group mb-3">
+        <div class="mb-3 form-group">
             <label for="idTurma">Turma</label>
             <select name="idTurma" class="form-control" id="">
                 @foreach ($turmas as $turma)
@@ -8,7 +8,7 @@
                 @endforeach
             </select>
         </div>
-        <div class="form-group mb-3">
+        <div class="mb-3 form-group">
             <label for="idTrimestre">Trimestre</label>
             <select name="idTrimestre" class="form-control" id="">
                 <option value="1">Iº</option>
@@ -18,15 +18,7 @@
         </div>
     </div> <!-- /.col -->
     <div class="col-md-6">
-        <div class="form-group mb-3">
-            <label for="idDisciplina">Disciplina</label>
-            <select name="idDisciplina" class="form-control" id="">
-                @foreach ($disciplinas as $disciplina)
-                    <option value="{{$disciplina->id}}" @if (isset($turma)){{ $turma->idDisciplina==$disciplina->id ?'selected':'' }}  @endif> {{$disciplina->nome}}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="form-group mb-3">
+        <div class="mb-3 form-group">
             <label for="data">Data</label>
             <input type="date" class="form-control" name="data" id="">
         </div>

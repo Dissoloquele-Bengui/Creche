@@ -4,9 +4,11 @@ namespace App\Http\Controllers\DP;
 
 use App\Http\Controllers\Controller;
 use App\Models\AnoLectivo;
+use App\Models\Classe;
 use App\Models\Pagamento;
 use Illuminate\Http\Request;
 use App\Models\Propina;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 class PropinaController extends Controller
@@ -18,8 +20,9 @@ class PropinaController extends Controller
     //
     public function index()
     {
-        $propinas = Propina::all();
-        return view('admin.propina.index',['propinas'=>$propinas]);
+        $data['propinas'] = Propina::all();
+        $data['classes']=Classe::all();
+        return view('admin.propina.index',$data);
     }
 
     /**
@@ -30,8 +33,9 @@ class PropinaController extends Controller
     public function create()
     {
         //
-        $anos=AnoLectivo::all();
-        return view('admin.propina.create.index',$anos);
+        $data['anos']=AnoLectivo::all();
+        $data['classes']=Classe::all();
+        return view('admin.propina.create.index',$data);
     }
 
     /**
@@ -50,6 +54,7 @@ class PropinaController extends Controller
                 'limite' => $request->limite,
                 'data_vencimento' => $request->data_vencimento,
                 'ano_id' => $ano->id,
+                'idClasse' => $request->idClasse,
             ]);
             //dd($propina);
 
@@ -75,6 +80,7 @@ class PropinaController extends Controller
                 'valor' => $request->valor,
                 'matricula_id' => $request->matricula_id,
                 'propina_id' => $request->propina_id,
+                'data'=> $request->data
             ]);
             //dd($propina);
 
@@ -85,7 +91,27 @@ class PropinaController extends Controller
             return redirect()->back()->with('Propina.create.error', 1);
         }
     }
+    public function listarPropina($id){
+        $data['pagamentos']=Pagamento::join('matriculas','matriculas.id','pagamentos.matricula_id')
+            ->join('propinas','propinas.id','pagamentos.propina_id')
+            ->join('alunos','alunos.id','matriculas.aluno_id')
+            ->join('turmas','turmas.id','matriculas.turma_id')
+            ->select('turmas.nome as turma','alunos.nome','alunos.sobrenome','propinas.mes as propina','pagamentos.*')
+            ->where('propinas.id',$id)
+            ->get();
+        if(Auth::user()->tipo=="Encarregado"){
+            $data['pagamentos']=Pagamento::join('matriculas','matriculas.id','pagamentos.matricula_id')
+                ->join('propinas','propinas.id','pagamentos.propina_id')
+                ->join('alunos','alunos.id','matriculas.aluno_id')
+                ->join('turmas','turmas.id','matriculas.turma_id')
+                ->select('turmas.nome as turma','alunos.nome','alunos.sobrenome','propinas.mes as propina','pagamentos.*')
+                ->where('propinas.id',$id)
+                ->where('alunos.user_id',Auth::user()->id)
+                ->get();
+        }
+        return view('admin.propina.pagamento.index',$data);
 
+    }
     /**
      * Display the specified resource.
      *
@@ -130,7 +156,7 @@ class PropinaController extends Controller
                 'mes' => $request->mes,
                 'limite' => $request->limite,
                 'data_vencimento' => $request->data_vencimento,
-                'ano_id' => $ano->id,
+                'idClasse' => $request->idClasse,
             ]);
 
             return redirect()->back()->with('Propina.update.success',1);

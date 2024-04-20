@@ -185,7 +185,6 @@ class NotificacaoController extends Controller
         ],[
             'vc_assunto.required'=>'O Assunto é um campo obrigatório',
             'lt_descricao.required'=>'A Descrição é um campo obrigatório',
-
         ]);
         try {
             //code...

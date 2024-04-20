@@ -1,10 +1,10 @@
 @extends('layout.admin.body')
-@section('titulo','Actualizar Classe')
+@section('titulo','Actualizar Ano')
 
 @section('conteudo')
     <div class="card shadow mb-4">
         <div class="card-header">
-        <strong class="card-title">Actualizar Classe</strong>
+        <strong class="card-title">Actualizar Ano</strong>
         </div>
         <form action="{{route('admin.classe.update',$classe->id)}}" method="post">
             @csrf
@@ -26,7 +26,7 @@
 @if (session('classe.update.error'))
     <script>
         Swal.fire(
-            'Erro ao Actualizar Classe!',
+            'Erro ao Actualizar Ano!',
             '',
             'error'
         )

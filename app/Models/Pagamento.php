@@ -12,8 +12,9 @@ class Pagamento extends Model
     use SoftDeletes;
     protected $fillable = [
         'valor',
+        'data',
         'matricula_id',
         'propina_id',
-       
+
     ];
 }

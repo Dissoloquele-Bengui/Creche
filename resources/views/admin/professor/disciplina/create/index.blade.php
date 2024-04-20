@@ -26,7 +26,7 @@
 @if (session('professorDisciplina.create.error'))
     <script>
         Swal.fire(
-            'Erro ao Vincular Disciplina ao Professor!',
+            'Erro ao Vincular Disciplina ao Educador!',
             '',
             'error'
         )

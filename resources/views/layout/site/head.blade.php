@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>IPIL- INSTITUTO POLITÉNICO INDUSTRIAL DE LUANDA @yield("- ".'titulo')</title>
+  <title>Nagefa-  @yield("- ".'titulo')</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="{{ asset('site2/assets/css/main.css')}}">
     <!-- responsive -->
     <link rel="stylesheet" href="{{ asset('site2/assets/css/responsive.css')}}">
-  
+
     @endif
   <script src="{{asset('painel/js/jquery.min.js')}}"></script>
   <script src="{{ asset('painel/js/sweetalert2.all.min.js') }}"></script>

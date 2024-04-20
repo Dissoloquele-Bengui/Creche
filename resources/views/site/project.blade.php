@@ -5,7 +5,7 @@
 @endsection
 @section('conteudo')
     <!-- ======= Breadcrumbs ======= -->
-    <div class="breadcrumbs d-flex align-items-center" style="background-image: url({{asset('site/assets/img/breadcrumbs-bg.jpg')}});">
+    <div class="breadcrumbs d-flex align-items-center" style="background-image: url({{asset('site/assets/img/banner2.webp')}});">
         <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
 
           <h2>Projects</h2>
@@ -33,7 +33,7 @@
             </ul>--}}<!-- End Projects Filters -->
 
             <div class="row gy-4 portfolio-container" data-aos="fade-up" data-aos-delay="200">
-              
+
               @foreach (getProjetos() as $projeto)
               <div class="col-lg-4 col-md-6 portfolio-item">
                 <div class="portfolio-content h-100">
@@ -49,15 +49,15 @@
                   </div>
                 </div>
               </div><!-- End Projects Item -->
-              
+
               @endforeach
-              
+
             </div><!-- End Projects Container -->
 
           </div>
 
         </div>
       </section><!-- End Our Projects Section -->
-      
-      
+
+
   @endsection

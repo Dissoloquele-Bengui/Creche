@@ -1,17 +1,17 @@
 @extends('layout.site.body')
-@section('titulo',"Página Inicial")
+@section('titulo',"Sobre")
 @section('hero')
 
 @endsection
 @section('conteudo')
     <!-- ======= Breadcrumbs ======= -->
-    <div class="breadcrumbs d-flex align-items-center" style="background-image: url({{asset('site/assets/img/breadcrumbs-bg.jpg')}});">
+    <div class="breadcrumbs d-flex align-items-center" style="background-image: url({{asset('site/assets/img/banner2.webp')}});">
         <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
 
-          <h2>About</h2>
+          <h2>Sobre</h2>
           <ol>
-            <li><a href="/">Home</a></li>
-            <li>About</li>
+            <li><a href="/">Início</a></li>
+            <li>Sobre</li>
           </ol>
 
         </div>
@@ -20,71 +20,36 @@
       <!-- ======= About Section ======= -->
       <section id="about" class="about">
         <div class="container" data-aos="fade-up">
-      
+
           <div class="row position-relative">
-      
-            <div class="col-lg-7 about-img" style="background-image: url({{asset('site/assets/img/about.jpg')}});"></div>
-      
+
+            <div class="col-lg-7 about-img" style="background-image: url({{asset('site/assets/img/banner3.webp')}});"></div>
+
             <div class="col-lg-7">
-              <h2>Sobre o Instituto Médio Industrial de Luanda</h2>
+              <h2>Sobre a Creche Nagefa</h2>
               <div class="our-story">
-                <h4>Desde 1988</h4>
+                <h4>Cuidando das nossas crianças desde 2005</h4>
                 <h3>Nossa História</h3>
-                <p>O Instituto Médio Industrial de Luanda é uma instituição de ensino técnico profissional localizada em Luanda, Angola. Desde a sua fundação em 1988, tem sido um centro de excelência na formação de profissionais nas áreas de eletricidade, mecânica, informática, construção civil e muito mais.</p>
+                <p>A Creche Nagefa, fundada em 2005 e situada nos Mulenvos de Cima, é um espaço dedicado ao cuidado e desenvolvimento das crianças em Luanda, Angola. Nosso objetivo é proporcionar um ambiente seguro, acolhedor e estimulante para as crianças, enquanto oferecemos suporte e tranquilidade aos encarregados.</p>
                 <ul>
-                  <li><i class="bi bi-check-circle"></i> <span>Oferecemos uma variedade de cursos técnicos e de formação profissional</span></li>
-                  <li><i class="bi bi-check-circle"></i> <span>Preparamos os alunos para o mercado de trabalho com habilidades práticas</span></li>
-                  <li><i class="bi bi-check-circle"></i> <span>Fornecemos conhecimentos especializados em diversas áreas</span></li>
+                  <li><i class="bi bi-check-circle"></i> <span>Oferecemos cuidados e educação para crianças de 6 meses a 6 anos</span></li>
+                  <li><i class="bi bi-check-circle"></i> <span>Contamos com uma equipe qualificada e experiente de educadores e cuidadores</span></li>
+                  <li><i class="bi bi-check-circle"></i> <span>Proporcionamos um ambiente seguro, limpo e estimulante para o desenvolvimento das crianças</span></li>
                 </ul>
-                <p>Nossa missão é proporcionar uma educação de qualidade que capacite os alunos a se destacarem em suas carreiras profissionais e contribuírem para o desenvolvimento da sociedade angolana.</p>
-      
+                <p>Nossa missão é promover o desenvolvimento integral das crianças, estimulando seu crescimento físico, cognitivo, emocional e social, enquanto estabelecemos uma parceria sólida com os encarregados para garantir o melhor cuidado e educação possível.</p>
+
               </div>
             </div>
-      
+
           </div>
-      
+
         </div>
       </section>
-      
+
       <!-- End About Section -->
 
 
 
-
-      <!-- ======= Our Team Section ======= -->
-      <section id="team" class="team">
-        <div class="container" data-aos="fade-up">
-
-          <div class="section-header">
-            <h2>Nosso Time</h2>
-            <p>O nosso time é composto por profissionais dedicados e apaixonados pelo ensino técnico profissional. Estamos empenhados em proporcionar uma experiência educacional de qualidade e preparar os nossos alunos para enfrentarem os desafios do mercado de trabalho com confiança e competência.</p>
-
-          </div>
-
-          <div class="row gy-5">
-
-            @foreach (getProfessores() as $professor)
-              <div class="col-lg-4 col-md-6 member" data-aos="fade-up" data-aos-delay="100">
-                <div class="member-img">
-                  <img src="{{asset('site/assets/img/team/team-1.jpg')}}" class="img-fluid" alt="">
-                  <div class="social">
-                    <a href="#"><i class="bi bi-twitter"></i></a>
-                    <a href="#"><i class="bi bi-facebook"></i></a>
-                    <a href="#"><i class="bi bi-instagram"></i></a>
-                    <a href="#"><i class="bi bi-linkedin"></i></a>
-                  </div>
-                </div>
-                <div class="member-info text-center">
-                  <h4>{{$professor->nome}}</h4>
-                  <span>Professor</span>
-                </div>
-              </div><!-- End Team Member -->
-            @endforeach
-
-          </div>
-
-        </div>
-      </section><!-- End Our Team Section -->
 
 
 @endsection

@@ -15,5 +15,6 @@ class Propina extends Model
         'limite',
         'data_vencimento',
         'ano_id',
+        'idClasse',
     ];
 }

@@ -40,7 +40,7 @@
                 <thead class="thead-dark">
                   <tr>
                     <th>ID</th>
-                    <th>Professor</th>
+                    <th>Educador</th>
                     <th>Curso</th>
                     <th>Código</th>
                     <th>Ações</th>
@@ -89,7 +89,7 @@
 @if (session('professorCurso.purge.success'))
     <script>
         Swal.fire(
-            'Vinculo de Professor e Curso Purgado com sucesso!',
+            'Vinculo de Educador e Curso Purgado com sucesso!',
             '',
             'success'
         )
@@ -98,7 +98,7 @@
 @if (session('professorCurso.purge.error'))
     <script>
         Swal.fire(
-            'Erro ao Purgar Vinculo de Professor e Curso!',
+            'Erro ao Purgar Vinculo de Educador e Curso!',
             '',
             'error'
         )
@@ -107,7 +107,7 @@
 @if (session('professorCurso.destroy.success'))
     <script>
         Swal.fire(
-            'Vinculo de Professor e Curso Eliminado com sucesso!',
+            'Vinculo de Educador e Curso Eliminado com sucesso!',
             '',
             'success'
         )
@@ -116,7 +116,7 @@
 @if (session('professorCurso.destroy.error'))
     <script>
         Swal.fire(
-            'Erro ao Eliminar Vinculo de Professor e Curso!',
+            'Erro ao Eliminar Vinculo de Educador e Curso!',
             '',
             'error'
         )

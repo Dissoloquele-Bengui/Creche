@@ -1,10 +1,10 @@
 @extends('layout.admin.body')
-@section('titulo','Actualizar Aluno')
+@section('titulo','Actualizar Criança')
 
 @section('conteudo')
-    <div class="card shadow mb-4">
+    <div class="mb-4 shadow card">
         <div class="card-header">
-        <strong class="card-title">Actualizar Aluno</strong>
+        <strong class="card-title">Actualizar Criança</strong>
         </div>
         <form action="{{route('admin.aluno.update',$aluno->id)}}" method="post" enctype="multipart/data">
             @csrf
@@ -17,7 +17,7 @@
 @if (session('aluno.update.success'))
     <script>
         Swal.fire(
-            'Aluno Actualizado com sucesso!',
+            'Criança Actualizada com sucesso!',
             '',
             'success'
         )
@@ -26,7 +26,7 @@
 @if (session('aluno.update.error'))
     <script>
         Swal.fire(
-            'Erro ao Actualizar Aluno!',
+            'Erro ao Actualizar Criança!',
             '',
             'error'
         )

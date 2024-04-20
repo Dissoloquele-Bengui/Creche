@@ -5,7 +5,7 @@
       <a href="{{route('home')}}" class="logo d-flex align-items-center">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <!-- <img src="assets/img/logo.png" alt=""> -->
-        <h1>IPIL<span>.</span></h1>
+        <h1>Nagefa<span>.</span></h1>
       </a>
 
       <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
@@ -14,34 +14,16 @@
         <ul>
           <li><a href="{{route('home')}}" class="active">Página Inicial</a></li>
           <li><a href="{{route('sobre')}}">Sobre</a></li>
-          <li class="dropdown"><a href="#">
-            <span>Serviços</span>
-            <i
-            class="bi bi-chevron-down dropdown-indicator"></i></a>
-            <ul>
-              <li class="dropdown"><a href="{{route('loja.site.lojas')}}"><span>Lojas</span> </a>
-                
-              </li>
-              <li class="dropdown"><a href="{{route('loja.site.livro')}}"><span>Livros</span> </a>
-            
-                </li>
-                <li class="dropdown"><a href="{{route('services')}}"><span>Cursos</span> </a>
-                    
-                </li>
-            </ul>
-          </li>
-          <li><a href="{{route('project')}}">Projectos</a></li>
+
           <li class="dropdown"><a href="#"><span>Procedimentos</span> <i
                 class="bi bi-chevron-down dropdown-indicator"></i></a>
             <ul>
-              <li><a href="#">Matricula</a></li>
               <li class="dropdown">
                 <a href="{{route('inscricao')}}"><span>Inscrição</span></a>
-               
+
               </li>
             </ul>
           </li>
-          <li><a href="{{route('contact')}}">Contacto</a></li>
           @if (Auth::check())
                     <li><a href="/admin/painel">Sistema</a>
                     <li>
@@ -56,8 +38,7 @@
                   class="bi bi-chevron-down dropdown-indicator"></i></a>
                   <ul>
                     <li class="dropdown"><a href="{{route('login')}}">Via E-mail</a></li>
-                    <li class="dropdown"><a href="{{route('login2')}}"><span>Via Nº de Processo</span></a>
-                    
+
                     </li>
                   </ul>
                 </li>

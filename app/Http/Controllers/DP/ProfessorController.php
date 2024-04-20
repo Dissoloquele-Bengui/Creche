@@ -26,10 +26,7 @@ class ProfessorController extends Controller
     //
     public function index()
     {
-        $professores = Professor::join('users','users.id','professors.user_id')
-        ->select('users.name as nome','users.genero as genero','users.numero_bi','users.email','users.data_nascimento','users.endereco','professors.*')
-        ->where('users.tipo',"Professor")
-        ->get();
+        $professores = Professor::all();
         return view('admin.professor.index',['professores'=>$professores]);
     }
 
@@ -55,21 +52,15 @@ class ProfessorController extends Controller
 
         try {
             //dd($request);
-            $user=User::create([
-                'name' => $request->nome,
-                'data_nascimento' => $request->data_nascimento,
-                'endereco' => $request->endereco,
-                'email' => $request->email,
-                'numero_bi' => $request->numero_bi,
-                'genero' => $request->genero,
-                'password'=>Hash::make("12345678"),
-                'tipo'=>"Professor"
-            ]);
             $professor = Professor::create([
                 'area_especializacao' => $request->area_especializacao,
+                'nome' => $request->nome,
+                'data_nascimento' => $request->data_nascimento,
+                'endereco' => $request->endereco,
+                'bi' => $request->numero_identificacao,
+                'genero' => $request->genero,
                 'data_contratacao' => $request->data_contratacao,
-                'salario' => $request->salario,
-                'user_id'=>$user->id,
+                'contacto'=> $request->telefone
             ]);
             //dd($professor);
 
@@ -105,10 +96,7 @@ class ProfessorController extends Controller
     public function edit($id)
     {
         //
-        $data["professor"] = Professor::join('users','users.id','professors.user_id')
-            ->select('users.primeiro_nome','users.ultimo_nome','users.genero','users.numero_bi','users.email','users.data_nascimento','users.endereco','professors.*')
-            ->where('professors.id',$id)
-            ->first();
+        $data["professor"] = Professor::findOrfail($id);
 
         return view('admin.professor.edit.index',$data);
     }
@@ -128,26 +116,24 @@ class ProfessorController extends Controller
 
          try {
             //code...
-
+          //  dd($request);
 
             $professor = Professor::findOrFail($id)->update([
                 'area_especializacao' => $request->area_especializacao,
-                'data_contratacao' => $request->data_contratacao,
-                'salario' => $request->salario,
-            ]);
-            User::find($professor->user_id)->update([
-                'primeiro_nome' => $request->nome,
+                'nome' => $request->nome,
                 'data_nascimento' => $request->data_nascimento,
                 'endereco' => $request->endereco,
-                'email' => $request->email,
-                'numero_bi' => $request->numero_bi,
+                'bi' => $request->numero_identificacao,
                 'genero' => $request->genero,
+                'data_contratacao' => $request->data_contratacao,
+                'contacto'=> $request->telefone
             ]);
 
             return redirect()->back()->with('professor.update.success',1);
 
          } catch (\Throwable $th) {
-            //throw $th;
+            throw $th;
+            dd($th);
             return redirect()->back()->with('professor.update.error',1);
          }
     }
@@ -184,320 +170,7 @@ class ProfessorController extends Controller
             return redirect()->back()->with('professor.purge.error',1);
         }
     }
-    /*Start Vinculo Professor Disciplinas */
 
-    public function listarVinculoDisciplina($id)
-    {
-        $dados['professorDisciplinas'] = DisciplinaProfessor::join('curso_classe_disciplinas','disciplina_professors.curso_classe_disciplina_id','=','curso_classe_disciplinas.id')
-            ->join('disciplinas','curso_classe_disciplinas.disciplina_id','disciplinas.id')
-            ->join('cursos','curso_classe_disciplinas.curso_id','cursos.id')
-            ->join('classes','curso_classe_disciplinas.classe_id','classes.id')
-            ->join('professors','disciplina_professors.professor_id','=','professors.id')
-            ->join('users','professors.user_id','users.id')
-            ->select('disciplina_professors.*','users.name as professor','disciplinas.nome as disciplina','disciplinas.codigo as codigo','cursos.nome as curso','classes.nome as classe')
-            ->where('professors.id',$id)
-            ->get();
-        //dd($dados['professorDisciplinas']);
-        return view('admin.professor.disciplina.index',$dados);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function createVinculoDisciplina($id)
-    {
-        //
-        $dados['disciplinas']=Disciplina::all();
-        $dados['cursos']=Curso::all();
-        $dados['classes']=Classe::all();
-        $dados['professores']=Professor::join('users','users.id','professors.user_id')
-            ->select('users.name as nome','users.genero','users.numero_bi','users.email','users.data_nascimento','users.endereco','professors.*')
-            ->where('professors.id',$id)
-            ->first();
-
-        return view('admin.professor.disciplina.create.index',$dados);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function storeVinculoDisciplina(Request $request)
-    {
-
-        try {
-            //dd($request);
-            $cursoDisciplina_id=CursoClasseDisciplina::where('curso_id',$request->curso_id)
-            ->where('classe_id',$request->classe_id)
-            ->where('disciplina_id',$request->disciplina_id)
-            ->first();
-            if(isset($cursoDisciplina_id)){
-                $professorDisciplina = DisciplinaProfessor::create([
-                    'professor_id' => $request->professor_id,
-                    'curso_classe_disciplina_id' => $cursoDisciplina_id->id,
-                ]);
-            }else{
-                return redirect()->back()->with('professorDisciplina.create.error', 1);
-            }
-            //dd($professor);
-
-            return redirect()->back()->with('professorDisciplina.create.success', 1);
-        } catch (\Throwable $th) {
-            throw $th;
-            dd($th);
-            return redirect()->back()->with('professorDisciplina.create.error', 1);
-        }
-    }
-
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function showVinculoDisciplina()
-    {
-        $professores = Professor::join('users','users.id','professors.user_id')
-        ->select('users.name as nome','users.genero as genero','users.numero_bi','users.email','users.data_nascimento','users.endereco','professors.*')
-        ->where('users.tipo',"Professor")
-        ->get();;
-        return view('admin.professor.disciplina.edit.index',['professores'=>$professores]);
-    }
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function editVinculoDisciplina($id)
-    {
-        //
-        //dd($id);
-        $dados['disciplinas']=Disciplina::all();
-        $dados['cursos']=Curso::all();
-        $dados['classes']=classe::all();
-        $dados['professorDisciplina']=DisciplinaProfessor::join('curso_classe_disciplinas','disciplina_professors.curso_classe_disciplina_id','=','curso_classe_disciplinas.id')
-            ->join('disciplinas','curso_classe_disciplinas.disciplina_id','disciplinas.id')
-            ->join('cursos','curso_classe_disciplinas.curso_id','cursos.id')
-            ->join('classes','curso_classe_disciplinas.classe_id','classes.id')
-            ->join('professors','disciplina_professors.professor_id','=','professors.id')
-            ->join('users','professors.user_id','users.id')
-            ->select('disciplina_professors.*','users.name as professor','disciplinas.nome as disciplina','disciplinas.codigo as codigo','cursos.nome as curso','classes.nome as classe')
-            ->where('disciplina_professors.id',$id)
-            ->first();
-        //dd($dados['professorDisciplina']);
-        return view('admin.professor.disciplina.edit.index',$dados);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function updateVinculoDisciplina(Request $request, $id)
-    {
-         try {
-            //dd($id);
-            $professorDisciplina = DisciplinaProfessor::findOrFail($id)->update([
-                'professor_id' => $request->professor_id,
-                'curso_classe_disciplina_id' => $request->disciplina_id,
-            ]);
-
-            return redirect()->back()->with('professorDisciplina.update.success',1);
-
-         } catch (\Throwable $th) {
-            //throw $th;
-            return redirect()->back()->with('professorDisciplina.update.error',1);
-         }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroyVinculoDisciplina($id)
-    {
-        try {
-            //code...
-            $professorDisciplina = DisciplinaProfessor::findOrFail($id);
-            DisciplinaProfessor::findOrFail($id)->delete();
-            return redirect()->back()->with('professorDisciplina.destroy.success',1);
-        } catch (\Throwable $th) {
-            //throw $th;
-            return redirect()->back()->with('professorDisciplina.destroy.error',1);
-        }
-    }
-
-    public function purgeVinculoDisciplina($id)
-    {
-        //
-        try {
-            //code...
-            $professor = DisciplinaProfessor::findOrFail($id);
-            DisciplinaProfessor::findOrFail($id)->forceDelete();
-            return redirect()->back()->with('professorDisciplina.purge.success',1);
-        } catch (\Throwable $th) {
-            //throw $th;
-            return redirect()->back()->with('professorDisciplina.purge.error',1);
-        }
-    }
-    /*End Vinculo Professor Disciplinas */
-
-    /*Start Vinculo Professor Disciplinas */
-
-    public function listarVinculoCurso($id)
-    {
-        $dados['professorCursos'] = CursoProfessor::join('cursos','curso_professors.curso_id','=','cursos.id')
-            ->join('professors','curso_professors.professor_id','=','professors.id')
-            ->join('users','professors.user_id','users.id')
-            ->select('curso_professors.*','users.name as professor','cursos.nome as curso','cursos.codigo as codigo')
-            ->where('professor_id',$id)
-            ->get();
-        return view('admin.professor.curso.index',$dados);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function createVinculoCurso($id)
-    {
-        //
-        $dados['cursos']=Curso::all();
-        $dados['professor']=Professor::join('users','users.id','professors.user_id')
-            ->select('users.name as nome','users.genero','users.numero_bi','users.email','users.data_nascimento','users.endereco','professors.*')
-            ->where('professors.id',$id)
-            ->first();
-        return view('admin.professor.curso.create.index',$dados);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function storeVinculoCurso(Request $request)
-    {
-
-        try {
-            //dd($request);
-            $professorCurso = CursoProfessor::create([
-                'professor_id' => $request->professor_id,
-                'curso_id' => $request->curso_id
-            ]);
-            //dd($professor);
-
-            return redirect()->back()->with('professorCurso.create.success', 1);
-        } catch (\Throwable $th) {
-            throw $th;
-            dd($th);
-            return redirect()->back()->with('professorCurso.create.error', 1);
-        }
-    }
-
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function showVinculoCurso()
-    {
-
-        return view('admin.professor.edit.index',$dados);
-    }
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function editVinculoCurso($id)
-    {
-        //
-        $dados['professorCurso'] = CursoProfessor::join('cursos','curso_professors.curso_id','=','cursos.id')
-            ->join('professors','curso_professors.professor_id','=','professors.id')
-            ->join('users','professors.user_id','users.id')
-            ->select('curso_professors.*','users.name as professor','cursos.nome as curso','cursos.codigo as codigo')
-            ->where('curso_professors.id',$id)
-            ->first();
-        //dd($dados['professorCurso']);
-
-        $dados['cursos']=Curso::all();
-
-        return view('admin.professor.curso.edit.index',$dados);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function updateVinculoCurso(Request $request, $id)
-    {
-        try {
-            //code...
-
-
-            $professor = CursoProfessor::findOrFail($id)->update([
-                'professor_id' => $request->professor_id,
-                'curso_id' => $request->curso_id,
-            ]);
-
-            return redirect()->back()->with('professorCurso.update.success',1);
-
-            } catch (\Throwable $th) {
-            //throw $th;
-            return redirect()->back()->with('professorCurso.update.error',1);
-            }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroyVinculoCurso($id)
-    {
-        try {
-            //code...
-            $professor = CursoProfessor::findOrFail($id);
-            CursoProfessor::findOrFail($id)->delete();
-            return redirect()->back()->with('professorCurso.destroy.success',1);
-        } catch (\Throwable $th) {
-            //throw $th;
-            return redirect()->back()->with('professorCurso.destroy.error',1);
-        }
-    }
-
-    public function purgeVinculoCurso($id)
-    {
-        //
-        try {
-            //code...
-            $professor = CursoProfessor::findOrFail($id);
-            CursoProfessor::findOrFail($id)->forceDelete();
-            return redirect()->back()->with('professorCurso.purge.success',1);
-        } catch (\Throwable $th) {
-            //throw $th;
-            return redirect()->back()->with('professorCurso.purge.error',1);
-        }
-    }
     /*End Vinculo Professor Turmas */
 
     /*Start Vinculo Professor Cursos */

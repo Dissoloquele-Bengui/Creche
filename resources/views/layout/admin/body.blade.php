@@ -1,13 +1,11 @@
 <!doctype html>
 <html lang="pt-br">
 @include('layout.admin.head')
-<body class="vertical  light  ">
+<body class="vertical light ">
     <div class="wrapper">
         @if (!isset($login))
-            @if (Auth::user()->tipo == "Aluno")
+            @if (Auth::user()->tipo == "Encarregado")
                 @include('layout.admin.menu2')
-            @elseif(Auth::user()->tipo=="Prestador de Serviços")
-                @include('layout.admin.menu3')
             @else
                 @include('layout.admin.menu')
             @endif
@@ -27,8 +25,8 @@
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body bg-white">
-                        <div class="col-md-12 mt-1  mb-4" id="quadro-notificacoes">
+                    <div class="bg-white modal-body">
+                        <div class="mt-1 mb-4 col-md-12" id="quadro-notificacoes">
 
 
                             <div class="list-group list-group-flush my-n3">
@@ -36,9 +34,9 @@
 
                                     @foreach (minhasNotificacoes()['notificacoes'] as $notificacao)
 
-                                        <a class="row align-items-center btn text-justify" onclick="getNotificacao({{$notificacao->id_estado}})">
+                                        <a class="text-justify row align-items-center btn" onclick="getNotificacao({{$notificacao->id_estado}})">
                                             <div class="col-auto">
-                                                <span class="circle circle-sm bg-warning"><i class="fe fe-shield-off fe-16 text-white"></i>
+                                                <span class="circle circle-sm bg-warning"><i class="text-white fe fe-shield-off fe-16"></i>
 
                                                 </span>
                                             </div>
@@ -60,14 +58,14 @@
                         </div>
 
                     </div>
-                    <div class="modal-footer  bg-white">
-                        <button type="button" class="btn mb-2 btn-secondary" data-dismiss="modal">Fechar</button>
+                    <div class="bg-white modal-footer">
+                        <button type="button" class="mb-2 btn btn-secondary" data-dismiss="modal">Fechar</button>
 
                     </div>
                     </div>
                 </div>
             </div>
-            <div class="modal fade text-left" id="ModalNotificacao" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="text-left modal fade" id="ModalNotificacao" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -78,7 +76,7 @@
                         </div>
                         <div class="modal-body">
                             <h4 class="title" id="notificacao-assunto"></h4>
-                            <p class="text-justify mt-4" id="notificacao-descricao">
+                            <p class="mt-4 text-justify" id="notificacao-descricao">
                             </p>
                             <h5 id="notificacao-data" > </h5>
                         </div>
@@ -111,7 +109,7 @@
     <!--<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
     </script>-->
-    
+
     <!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
     </script>-->
@@ -129,7 +127,7 @@
     <script src="{{ asset('painel/js/apps.js') }}"></script>
     <!--Select2-->
     <script src="{{ asset('painel/js/select2.min.js') }}"></script>
-    
+
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"
         integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -138,11 +136,11 @@
         integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    
+
     <script async src="painel/js/googleManager.js"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-    
+
         function gtag() {
             dataLayer.push(arguments);
         }
@@ -211,7 +209,7 @@
      <script>
         function getDisciplinaByTurma(){
             let option = $('#it_id_turma').val();
-            $('#it_id_disciplina').html('');    
+            $('#it_id_disciplina').html('');
             if(!option ==0){
                 $.ajax({
                     type:"GET",

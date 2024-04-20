@@ -18,7 +18,7 @@
 @if (session('professorDisciplina.create.success'))
     <script>
         Swal.fire(
-            'Vinculo de Professor e Disciplina Editado com sucesso!',
+            'Vinculo de Educador e Disciplina Editado com sucesso!',
             '',
             'success'
         )
@@ -27,7 +27,7 @@
 @if (session('professorDisciplina.create.error'))
     <script>
         Swal.fire(
-            'Erro ao Editar Vinculo de Professor e Disciplina!',
+            'Erro ao Editar Vinculo de Educador e Disciplina!',
             '',
             'error'
         )

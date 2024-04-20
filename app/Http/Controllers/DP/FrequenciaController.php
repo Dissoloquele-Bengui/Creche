@@ -12,6 +12,7 @@ use App\Models\Classe;
 use App\Models\Disciplina;
 use App\Models\Matricula;
 use App\Models\Turma;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
@@ -24,19 +25,23 @@ class FrequenciaController extends Controller
     //
     public function index()
     {
-        $dados['disciplinas']=Disciplina::all();
-        $dados['turmas']=Turma::join('matriculas','turmas.id','=','matriculas.aluno_id')->whereColumn('matriculas.aluno_id','turmas.id')->get();
+        $dados['turmas']=Turma::join('matriculas','turmas.id','=','matriculas.turma_id')->whereColumn('matriculas.aluno_id','turmas.id')->get();
+        if(Auth::user()->tipo=="Encarregado"){
+            $dados['turmas']=Turma::join('matriculas','turmas.id','=','matriculas.turma_id')
+                ->join('alunos','alunos.id','=','matriculas.aluno_id')
+                ->select('turmas.*')
+                ->where('alunos.user_id',Auth::user()->id)
+                ->distinct('turmas.id')
+                ->get();
+        }
         return view('admin.frequencia.read.buscar',$dados);
     }
     public function verFrequencia(Request $request)
     {
         $dados['data_atual']=$request->data;
-        $dados['disciplina_id']=$request->idDisciplina;
-        $dados['disciplina'] = Disciplina::where('id', $request->idDisciplina)->first();
-        $dados['turma'] = Turma::join('cursos', 'turmas.idCurso', '=', 'cursos.id')
-            ->join('classes', 'turmas.idClasse', '=', 'classes.id')
+        $dados['turma'] = Turma::join('classes', 'turmas.idClasse', '=', 'classes.id')
             ->join('ano_lectivos', 'turmas.idAno', '=', 'ano_lectivos.id')
-            ->select('turmas.*', 'cursos.nome as curso', 'classes.nome as classe', 'ano_lectivos.data_inicio', 'ano_lectivos.data_fim')
+            ->select('turmas.*', 'classes.nome as classe', 'ano_lectivos.data_inicio', 'ano_lectivos.data_fim')
             ->where('turmas.id', $request->idTurma)
             ->first();
         $dados['alunos'] = Aluno::join('matriculas', 'alunos.id', '=', 'matriculas.aluno_id')
@@ -44,10 +49,17 @@ class FrequenciaController extends Controller
             ->select('alunos.*', 'matriculas.id as idMatricula')
             ->where('matriculas.turma_id', $request->idTurma)
             ->get();
+        if(Auth::user()->tipo=="Encarregado"){
+            $dados['alunos'] = Aluno::join('matriculas', 'alunos.id', '=', 'matriculas.aluno_id')
+                ->join('turmas', 'turmas.id', '=', 'matriculas.turma_id')
+                ->select('alunos.*', 'matriculas.id as idMatricula')
+                ->where('matriculas.turma_id', $request->idTurma)
+                ->where('alunos.user_id',Auth::user()->id)
+                ->get();
+        }
 
         foreach ($dados['alunos'] as $aluno) {
             $frequencia = Frequencia::where('matricula_id', $aluno->idMatricula)
-                ->where('disciplina_id', $request->idDisciplina)
                 ->where('data_aula', $request->data)
                 ->pluck('presenca')
                 ->first();
@@ -60,19 +72,16 @@ class FrequenciaController extends Controller
 
     public function registar()
     {
-        $dados['disciplinas']=Disciplina::all();
-        $dados['turmas']=Turma::join('matriculas','turmas.id','=','matriculas.aluno_id')->whereColumn('matriculas.aluno_id','turmas.id')->get();
+
+        $dados['turmas']=Turma::all();
         return view('admin.frequencia.presenca.index',$dados);
     }
     public function lancarFrequencia(Request $request)
     {
         $dados['data_atual']=$request->data;
-        $dados['disciplina_id']=$request->idDisciplina;
-        $dados['disciplina'] = Disciplina::where('id', $request->idDisciplina)->first();
-        $dados['turma'] = Turma::join('cursos', 'turmas.idCurso', '=', 'cursos.id')
-            ->join('classes', 'turmas.idClasse', '=', 'classes.id')
+        $dados['turma'] = Turma::join('classes', 'turmas.idClasse', '=', 'classes.id')
             ->join('ano_lectivos', 'turmas.idAno', '=', 'ano_lectivos.id')
-            ->select('turmas.*', 'cursos.nome as curso', 'classes.nome as classe', 'ano_lectivos.data_inicio', 'ano_lectivos.data_fim')
+            ->select('turmas.*', 'classes.nome as classe', 'ano_lectivos.data_inicio', 'ano_lectivos.data_fim')
             ->where('turmas.id', $request->idTurma)
             ->first();
         $dados['alunos'] = Aluno::join('matriculas', 'alunos.id', '=', 'matriculas.aluno_id')
@@ -83,7 +92,6 @@ class FrequenciaController extends Controller
 
         foreach ($dados['alunos'] as $aluno) {
             $frequencia = Frequencia::where('matricula_id', $aluno->idMatricula)
-                ->where('disciplina_id', $request->idDisciplina)
                 ->where('data_aula', $request->data)
                 ->pluck('presenca')
                 ->first();
@@ -103,7 +111,7 @@ class FrequenciaController extends Controller
                     $valor=$id[$idMatricula];
                     //dd($valor);
                     $frequencia = Frequencia::where('matricula_id', $idMatricula)
-                        ->where('disciplina_id',$disciplina_id)->where('data_aula',$data_atual)
+                        ->where('data_aula',$data_atual)
                         ->first();
                     // Atualiza ou cria uma nova avaliação
                     if ($frequencia) {
@@ -112,7 +120,6 @@ class FrequenciaController extends Controller
                     } else {
                         $frequencia=Frequencia::create([
                             'data_aula' => $data_atual,
-                            'disciplina_id' => $disciplina_id,
                             'matricula_id' => $idMatricula,
                             'presenca' => $valor,
                         ]);
@@ -120,7 +127,7 @@ class FrequenciaController extends Controller
                     //dd($frequencia);
 
                 }
-                return redirect()->route('admin.frequencia.presenca')->with('Frequencia.update.success', 1);
+                return redirect()->route('admin.frequencia.registar')->with('Frequencia.update.success', 1);
             } catch (\Throwable $th) {
                 dd($th);
                 return redirect()->route('admin.frequencia.presenca')->withInput()->with('Frequencia.create.error', 1);

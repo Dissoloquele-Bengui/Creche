@@ -1,12 +1,12 @@
 @extends('layout.admin.body')
-@section('titulo','Lista dos Professores')
+@section('titulo','Lista dos Educadores')
 
 @section('conteudo')
 <div class="container-fluid">
     <div class="row justify-content-center">
       <div class="col-12">
         <h2 class="text page-title mb-2">
-          Lista dos Professores
+          Lista dos Educadores
         </h2>
         <div class="row">
           <!-- Small table -->
@@ -119,7 +119,7 @@
   @if (session('professor.destroy.success'))
   <script>
       Swal.fire(
-          'Professor Removido com sucesso!',
+          'Educador Removido com sucesso!',
           '',
           'success'
       )
@@ -128,7 +128,7 @@
 @if (session('professor.destroy.error'))
   <script>
       Swal.fire(
-          'Erro ao Remover Professor!',
+          'Erro ao Remover Educador!',
           '',
           'error'
       )
@@ -137,7 +137,7 @@
 @if (session('professor.purge.success'))
   <script>
       Swal.fire(
-          'Professor Purgado com sucesso!',
+          'Educador Purgado com sucesso!',
           '',
           'success'
       )
@@ -146,7 +146,7 @@
 @if (session('professor.purge.error'))
   <script>
       Swal.fire(
-          'Erro ao Purgar Professor!',
+          'Erro ao Purgar Educador!',
           '',
           'error'
       )

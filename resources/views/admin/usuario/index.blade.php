@@ -5,24 +5,27 @@
 <div class="container-fluid">
   <div class="row justify-content-center">
     <div class="col-12">
-        <h2 class="text page-title mb-2">
+        <h2 class="mb-2 text page-title">
             Lista dos Usuários
         </h2>
       <div class="row">
         <!-- Small table -->
         <div class="my-4 col-md-12">
-            
+
           <div class="p-3 shadow card">
             <div class="card-body">
               <div class="mb-3 toolbar row">
-                <div class="ml-auto col">
-                    <div class="float-right dropdown">
-                      <button class="float-right ml-3 btn btn-primary"
-                      class="btn botao" data-toggle="modal" data-target="#ModalCreate"
-                      type="button">Adicionar +</button>
+                @if (Auth::user()->tipo == "Administrador")
+                    <div class="ml-auto col">
+                        <div class="float-right dropdown">
+                        <button class="float-right ml-3 btn btn-primary"
+                        class="btn botao" data-toggle="modal" data-target="#ModalCreate"
+                        type="button">Adicionar +</button>
 
+                        </div>
                     </div>
-                </div>
+
+                @endif
 
               </div>
               <!-- table -->

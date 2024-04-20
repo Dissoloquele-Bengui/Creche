@@ -1,10 +1,10 @@
 @extends('layout.admin.body')
-@section('titulo','Actualizar Vinculo de Classe Disciplina')
+@section('titulo','Actualizar Vinculo de Ano Disciplina')
 
 @section('conteudo')
     <div class="card shadow mb-4">
         <div class="card-header">
-        <strong class="card-title">Actualizar Vinculo de Classe Disciplina</strong>
+        <strong class="card-title">Actualizar Vinculo de Ano Disciplina</strong>
         </div>
         <form action="{{ route('admin.classe.update', ['id' => $classeDisciplina->id]) }}
 " method="post">

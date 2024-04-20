@@ -1,10 +1,10 @@
 @extends('layout.admin.body')
-@section('titulo','Cadastrar Professor')
+@section('titulo','Cadastrar Educador')
 
 @section('conteudo')
     <div class="card shadow mb-4">
         <div class="card-header">
-        <strong class="card-title">Cadastrar Professor</strong>
+        <strong class="card-title">Cadastrar Educador</strong>
         </div>
         <form action="{{route('admin.professor.store')}}" method="post">
             @csrf
@@ -17,7 +17,7 @@
 @if (session('professor.create.success'))
     <script>
         Swal.fire(
-            'Professor Cadastrado com sucesso!',
+            'Educador Cadastrado com sucesso!',
             '',
             'success'
         )
@@ -26,7 +26,7 @@
 @if (session('professor.create.error'))
     <script>
         Swal.fire(
-            'Erro ao Cadastrar Classe!',
+            'Erro ao Cadastrar Ano!',
             '',
             'error'
         )

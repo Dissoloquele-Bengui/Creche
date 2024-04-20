@@ -25,6 +25,6 @@ class Notificacoes extends Model
 
 
     ];
-    protected $table = 'Notificacoes';
+    protected $table = 'notificacoes';
 
 }

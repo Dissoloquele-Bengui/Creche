@@ -14,13 +14,11 @@ class Professor extends Model
         'nome',
         'data_nascimento',
         'endereco',
-        'telefone',
+        'contacto',
         'email',
-        'numero_identificacao',
+        'bi',
         'area_especializacao',
-        'salario',
         'genero',
-        'data_contratacao',
-        'user_id'
+        'data_contratacao'
     ];
 }

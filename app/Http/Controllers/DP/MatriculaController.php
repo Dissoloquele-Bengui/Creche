@@ -22,12 +22,10 @@ class MatriculaController extends Controller
     public function index()
     {
         $data['matriculas'] = Matricula::join('alunos', 'matriculas.aluno_id', '=', 'alunos.id')
-            ->join('users','users.id','alunos.user_id')
             ->join('turmas', 'turmas.id', '=', 'matriculas.turma_id')
             ->join('classes', 'turmas.idClasse', '=', 'classes.id')
             ->join('ano_lectivos', 'turmas.idAno', '=', 'ano_lectivos.id')
-            ->join('cursos', 'cursos.id', '=', 'turmas.idCurso')
-            ->select('matriculas.*', 'users.primeiro_nome as primeiro', 'users.ultimo_nome as ultimo',  'turmas.nome as turma', 'ano_lectivos.data_inicio as data_inicio', 'ano_lectivos.data_fim', 'cursos.nome as curso', 'classes.nome as classe')
+            ->select('matriculas.*', 'alunos.nome as primeiro', 'alunos.sobrenome as ultimo',  'turmas.nome as turma', 'ano_lectivos.data_inicio as data_inicio', 'ano_lectivos.data_fim', 'classes.nome as classe')
             ->whereColumn('turmas.id', '=', 'matriculas.turma_id')
             ->get();
 
@@ -43,9 +41,8 @@ class MatriculaController extends Controller
     public function create()
     {
         //
-        $dados['alunos']=Aluno::join('users','users.id','alunos.user_id')
-            ->select('users.primeiro_nome','users.ultimo_nome','users.genero','users.numero_bi','users.email','users.data_nascimento','users.endereco','alunos.*')
-            ->where('users.tipo',"Aluno")
+        $dados['alunos']=Aluno::leftJoin('users','users.id','alunos.user_id')
+            ->select('users.name as nome_responsavel','users.contacto as contato_responsavel','alunos.*')
             ->get();
         $dados['turmas']=Turma::all();
         return view('admin.matricula.create.index',$dados);

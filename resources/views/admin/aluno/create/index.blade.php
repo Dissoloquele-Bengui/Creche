@@ -1,10 +1,10 @@
 @extends('layout.admin.body')
-@section('titulo','Cadastrar Aluno')
+@section('titulo','Cadastrar Criança')
 
 @section('conteudo')
-    <div class="card shadow mb-4">
+    <div class="mb-4 shadow card">
         <div class="card-header">
-        <strong class="card-title">Cadastrar Aluno</strong>
+        <strong class="card-title">Cadastrar Criança</strong>
         </div>
         <form action="{{route('admin.aluno.store')}}" method="post" enctype="multipart/data">
             @csrf
@@ -17,7 +17,7 @@
 @if (session('aluno.create.success'))
     <script>
         Swal.fire(
-            'Aluno Cadastrado com sucesso!',
+            'Criança Cadastrada com sucesso!',
             '',
             'success'
         )
@@ -26,7 +26,7 @@
 @if (session('aluno.create.error'))
     <script>
         Swal.fire(
-            'Erro ao Cadastrar Aluno!',
+            'Erro ao Cadastrar Criança!',
             '',
             'error'
         )

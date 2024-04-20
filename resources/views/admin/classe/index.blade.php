@@ -1,11 +1,11 @@
 @extends('layout.admin.body')
-@section('titulo','Lista das Classes')
+@section('titulo','Lista das Anos')
 @section('conteudo')
 <div class="container-fluid">
     <div class="row justify-content-center">
       <div class="col-12">
         <h2 class="text mb-2 page-title">
-          Lista das Classes
+          Lista das Anos
         </h2>
         <div class="row">
           <!-- Small table -->
@@ -97,7 +97,7 @@
 @if (session('classe.destroy.error'))
     <script>
         Swal.fire(
-            'Erro ao Remover Classe!',
+            'Erro ao Remover Ano!',
             '',
             'error'
         )
@@ -115,7 +115,7 @@
 @if (session('classe.purge.error'))
     <script>
         Swal.fire(
-            'Erro ao Purgar Classe!',
+            'Erro ao Purgar Ano!',
             '',
             'error'
         )

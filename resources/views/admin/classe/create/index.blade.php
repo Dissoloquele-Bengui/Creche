@@ -1,10 +1,10 @@
 @extends('layout.admin.body')
-@section('titulo','Cadastrar Classe')
+@section('titulo','Cadastrar Ano')
 
 @section('conteudo')
     <div class="card shadow mb-4">
         <div class="card-header">
-        <strong class="card-title">Cadastrar Classe</strong>
+        <strong class="card-title">Cadastrar Ano</strong>
         </div>
         <form action="{{route('admin.classe.store')}}" method="post">
             @csrf
@@ -26,7 +26,7 @@
 @if (session('classe.create.error'))
     <script>
         Swal.fire(
-            'Erro ao Cadastrar Classe!',
+            'Erro ao Cadastrar Ano!',
             '',
             'error'
         )
