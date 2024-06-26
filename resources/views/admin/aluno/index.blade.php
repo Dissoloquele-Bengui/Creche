@@ -9,8 +9,6 @@
           Lista das Crianças
         </h2>
         <div class="row">
-
-          <!-- Small table -->
           <div class="my-4 col-md-12">
             <h2 class="mb-1 h4"></h2>
             <p class="mb-3"></p>
@@ -52,45 +50,45 @@
                   </thead>
                   <tbody>
                     @foreach ($alunos as $aluno)
-                    <tr>
+                        <tr>
 
-                        <td>
-                          <div class="avatar avatar-md">
-                            <img src="./assets/avatars/face-3.jpg" alt="..." class="avatar-img rounded-circle">
-                          </div>
-                        </td>
-                        <td>
-                          <p class="mb-0 text-muted"><strong>{{$aluno->id }}</strong></p>
-                        </td>
-                        <td>
-                          <p class="mb-0 text-muted">{{$aluno->primeiro_nome}} {{$aluno->ultimo_nome}}</p>
-                        </td>
-                        <td>
-                          <p class="mb-0 text-muted">+244 {{$aluno->numero_telefone}}</p>
-
-                        </td>
-                        <td class="w-25">
-                            <p class="mb-0 text-muted">{{$aluno->nome_responsavel}}</p>
-                        </td>
-
-                        <td class="w-25">
-                            <p class="mb-0 text-muted">{{$aluno->contato_responsavel}}</p>
-                        </td>
-                        <td class="w-25">
-                            <p class="mb-0 text-muted">{{$aluno->data_nascimento}}</p>
-                        </td>
-                        <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="sr-only text-muted">Action</span>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                @if (Auth::user()->tipo == "Administrador")
-                                    <a class="dropdown-item" href="{{route('admin.aluno.edit',['id'=>$aluno->id])}}">Editar</a>
-                                    <a class="dropdown-item" href="{{route('admin.aluno.destroy',['id'=>$aluno->id])}}">Remover</a>
-                                    <a class="dropdown-item" href="{{route('admin.aluno.purge',['id'=>$aluno->id])}}">Purgar</a>
-                                @endif
-
-                            </div>
+                            <td>
+                                <div class="avatar avatar-md">
+                                    <img src="./assets/avatars/face-3.jpg" alt="..." class="avatar-img rounded-circle">
+                                </div>
                             </td>
+                            <td>
+                            <p class="mb-0 text-muted"><strong>{{$aluno->id }}</strong></p>
+                            </td>
+                            <td>
+                            <p class="mb-0 text-muted">{{$aluno->primeiro_nome}} {{$aluno->ultimo_nome}}</p>
+                            </td>
+                            <td>
+                            <p class="mb-0 text-muted">+244 {{$aluno->numero_telefone}}</p>
+
+                            </td>
+                            <td class="w-25">
+                                <p class="mb-0 text-muted">{{$aluno->nome_responsavel}}</p>
+                            </td>
+
+                            <td class="w-25">
+                                <p class="mb-0 text-muted">{{$aluno->contato_responsavel}}</p>
+                            </td>
+                            <td class="w-25">
+                                <p class="mb-0 text-muted">{{$aluno->data_nascimento}}</p>
+                            </td>
+                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="sr-only text-muted">Action</span>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    @if (Auth::user()->tipo == "Administrador")
+                                        <a class="dropdown-item" href="{{route('admin.aluno.edit',['id'=>$aluno->id])}}">Editar</a>
+                                        <a class="dropdown-item" href="{{route('admin.aluno.destroy',['id'=>$aluno->id])}}">Remover</a>
+                                        <a class="dropdown-item" href="{{route('admin.aluno.purge',['id'=>$aluno->id])}}">Purgar</a>
+                                    @endif
+
+                                </div>
+                                </td>
                         </tr>
 
                     @endforeach

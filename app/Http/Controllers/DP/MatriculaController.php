@@ -83,10 +83,10 @@ class MatriculaController extends Controller
     public function show()
     {
         $anos=AnoLectivo::all();
-        $cursos=Curso::all();
+
         $classes=Classe::all();
         $matriculas = Matricula::all();
-        return view('admin.matricula.edit.index',['matriculas'=>$matriculas,'anos'=>$anos,'cursos'=>$cursos,'classes'=>$classes]);
+        return view('admin.matricula.edit.index',['matriculas'=>$matriculas,'anos'=>$anos,'classes'=>$classes]);
     }
     /**
      * Show the form for editing the specified resource.

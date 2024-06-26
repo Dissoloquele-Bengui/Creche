@@ -95,4 +95,42 @@
       </div> <!-- .col-12 -->
     </div> <!-- .row -->
   </div> <!-- .container-fluid -->
+  @if (session('Propina.destroy.success'))
+  <script>
+      Swal.fire(
+          'Propina Eliminada com sucesso!',
+          '',
+          'success'
+      )
+  </script>
+@endif
+@if (session('Propina.destroy.error'))
+  <script>
+      Swal.fire(
+          'Erro ao Eliminar Propina!',
+          '',
+          'error'
+      )
+  </script>
+@endif
+@if (session('Propina.purge.success'))
+  <script>
+      Swal.fire(
+          'Propina Purgada com sucesso!',
+          '',
+          'success'
+      )
+  </script>
+@endif
+@if (session('Propina.purge.error'))
+  <script>
+      Swal.fire(
+          'Erro ao Purgar Propina!',
+          '',
+          'error'
+      )
+  </script>
+@endif
+
+
 @endsection

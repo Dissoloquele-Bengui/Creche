@@ -14,5 +14,6 @@ class Matricula extends Model
         'aluno_id',
         'turma_id',
     ];
+    
     protected $dates=['deleted_at'];
 }

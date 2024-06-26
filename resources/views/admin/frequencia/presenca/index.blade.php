@@ -2,7 +2,7 @@
 @section('titulo','Registar Presença')
 
 @section('conteudo')
-    <div class="card shadow mb-4">
+    <div class="mb-4 shadow card">
         <div class="card-header">
         <strong class="card-title">Registar Presença</strong>
         </div>

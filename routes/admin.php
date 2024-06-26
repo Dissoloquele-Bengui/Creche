@@ -16,10 +16,7 @@ use App\Http\Controllers\DP;
 // Exemplo de rota de logout
 
 
-Route::get('/logout', 'App\Http\Controllers\Auth\LoginController@logout')->name('logout');
 Route::prefix('admin')->group(function(){
-
-    Route::post('/iniciar-sessao', 'App\Http\Controllers\Auth\LoginController@login')->name('sessao');
 
 
     Route::prefix('aluno')->group(function () {
@@ -40,9 +37,11 @@ Route::prefix('admin')->group(function(){
         Route::get('destroy/{id}', ['as' => 'admin.pagamento_fatura.destroy', 'uses' => 'App\Http\Controllers\Admin\PagamentoFaturaController@destroy']);
         Route::get('purge/{id}', ['as' => 'admin.pagamento_fatura.purge', 'uses' => 'App\Http\Controllers\Admin\PagamentoFaturaController@purge']);
     });
+
     Route::prefix('logs')->group(function () {
         Route::get('index', ['as' => 'admin.logs.index', 'uses' => 'App\Http\Controllers\DP\LogController@index']);
     });
+
     Route::prefix('professor')->group(function () {
         Route::get('index', ['as' => 'admin.professor.index', 'uses' => 'App\Http\Controllers\DP\ProfessorController@index']);
         Route::get('create', ['as' => 'admin.professor.create', 'uses' => 'App\Http\Controllers\DP\ProfessorController@create']);
@@ -52,13 +51,6 @@ Route::prefix('admin')->group(function(){
         Route::get('destroy/{id}', ['as' => 'admin.professor.destroy', 'uses' => 'App\Http\Controllers\DP\ProfessorController@destroy']);
         Route::get('purge/{id}', ['as' => 'admin.professor.purge', 'uses' => 'App\Http\Controllers\DP\ProfessorController@purge']);
 
-        Route::get('listarVinculoDisciplina/{id}', ['as' => 'admin.professor.listarVinculoDisciplina', 'uses' => 'App\Http\Controllers\DP\ProfessorController@listarVinculoDisciplina']);
-        Route::get('createVinculoDisciplina/{id}', ['as' => 'admin.professor.createVinculoDisciplina', 'uses' => 'App\Http\Controllers\DP\ProfessorController@createVinculoDisciplina']);
-        Route::post('storeVinculoDisciplina', ['as' => 'admin.professor.storeVinculoDisciplina', 'uses' => 'App\Http\Controllers\DP\ProfessorController@storeVinculoDisciplina']);
-        Route::get('editVInculoDisciplina/{id}', ['as' => 'admin.professor.editVinculoDisciplina', 'uses' => 'App\Http\Controllers\DP\ProfessorController@editVInculoDisciplina']);
-        Route::post('updateVinculoDisciplina/{id}', ['as' => 'admin.professor.updateVinculoDisciplina', 'uses' => 'App\Http\Controllers\DP\ProfessorController@updateVinculoDisciplina']);
-        Route::get('destroyVinculoDisciplina/{id}', ['as' => 'admin.professor.destroyVinculoDisciplina', 'uses' => 'App\Http\Controllers\DP\ProfessorController@destroyVinculoDisciplina']);
-        Route::get('purgeVinculoDisciplina/{id}', ['as' => 'admin.professor.purgeVinculoDisciplina', 'uses' => 'App\Http\Controllers\DP\ProfessorController@purgeVinculoDisciplina']);
 
         Route::get('listarVinculoTurma/{id}', ['as' => 'admin.professor.listarVinculoTurma', 'uses' => 'App\Http\Controllers\DP\ProfessorController@listarVinculoTurma']);
         Route::get('createVinculoTurma{id}', ['as' => 'admin.professor.createVinculoTurma', 'uses' => 'App\Http\Controllers\DP\ProfessorController@createVinculoTurma']);
@@ -67,38 +59,8 @@ Route::prefix('admin')->group(function(){
         Route::post('updateVinculoTurma/{id}', ['as' => 'admin.professor.updateVinculoTurma', 'uses' => 'App\Http\Controllers\DP\ProfessorController@updateVinculoTurma']);
         Route::get('destroyVinculoTurma/{id}', ['as' => 'admin.professor.destroyVinculoTurma', 'uses' => 'App\Http\Controllers\DP\ProfessorController@destroyVinculoTurma']);
         Route::get('purgeVinculoTurma/{id}', ['as' => 'admin.professor.purgeVinculoTurma', 'uses' => 'App\Http\Controllers\DP\ProfessorController@purgeVinculoTurma']);
-
-        Route::get('listarVinculoCurso/{id}', ['as' => 'admin.professor.listarVinculoCurso', 'uses' => 'App\Http\Controllers\DP\ProfessorController@listarVinculoCurso']);
-        Route::get('createVinculoCurso/{id}', ['as' => 'admin.professor.createVinculoCurso', 'uses' => 'App\Http\Controllers\DP\ProfessorController@createVinculoCurso']);
-        Route::post('storeVinculoCurso', ['as' => 'admin.professor.storeVinculoCurso', 'uses' => 'App\Http\Controllers\DP\ProfessorController@storeVinculoCurso']);
-
-        Route::get('editVInculoCurso/{id}', ['as' => 'admin.professor.editVinculoCurso', 'uses' => 'App\Http\Controllers\DP\ProfessorController@editVInculoCurso']);
-
-        Route::post('updateVinculoCurso/{id}', ['as' => 'admin.professor.updateVinculoCurso', 'uses' => 'App\Http\Controllers\DP\ProfessorController@updateVinculoCurso']);
-        Route::get('destroyVinculoCurso/{id}', ['as' => 'admin.professor.destroyVinculoCurso', 'uses' => 'App\Http\Controllers\DP\ProfessorController@destroyVinculoCurso']);
-        Route::get('purgeVinculoCurso/{id}', ['as' => 'admin.professor.purgeVinculoCurso', 'uses' => 'App\Http\Controllers\DP\ProfessorController@purgeVinculoCurso']);
-
-
     });
 
-    Route::prefix('curso')->group(function () {
-        Route::get('index', ['as' => 'admin.curso.index', 'uses' => 'App\Http\Controllers\DP\CursoController@index']);
-        Route::get('create', ['as' => 'admin.curso.create', 'uses' => 'App\Http\Controllers\DP\CursoController@create']);
-        Route::post('store', ['as' => 'admin.curso.store', 'uses' => 'App\Http\Controllers\DP\CursoController@store']);
-        Route::get('edit/{id}', ['as' => 'admin.curso.edit', 'uses' => 'App\Http\Controllers\DP\CursoController@edit']);
-        Route::post('update/{id}', ['as' => 'admin.curso.update', 'uses' => 'App\Http\Controllers\DP\CursoController@update']);
-        Route::get('destroy/{id}', ['as' => 'admin.curso.destroy', 'uses' => 'App\Http\Controllers\DP\CursoController@destroy']);
-        Route::get('purge/{id}', ['as' => 'admin.curso.purge', 'uses' => 'App\Http\Controllers\DP\CursoController@purge']);
-        Route::get('createVinculoDisciplina/{id}', ['as' => 'admin.curso.createVinculoDisciplina', 'uses' => 'App\Http\Controllers\DP\CursoClasseDisciplinaController@create']);
-        Route::get('listaVinculoDisciplina/{id}', ['as' => 'admin.curso.listaVinculoDisciplina', 'uses' => 'App\Http\Controllers\DP\CursoClasseDisciplinaController@lista']);
-
-        Route::post('storeVinculoDisciplina', ['as' => 'admin.curso.storeVinculoDisciplina', 'uses' => 'App\Http\Controllers\DP\CursoClasseDisciplinaController@store']);
-        Route::get('editVinculoDisciplina/{id}', ['as' => 'admin.curso.editVinculoDisciplina', 'uses' => 'App\Http\Controllers\DP\CursoClasseDisciplinaController@edit']);
-        Route::post('updateVinculoDisciplina/{id}', ['as' => 'admin.curso.updateVinculoDisciplina', 'uses' => 'App\Http\Controllers\DP\CursoClasseDisciplinaController@update']);
-        Route::get('destroyVinculoDisciplina/{id}', ['as' => 'admin.curso.destroyVinculoDisciplina', 'uses' => 'App\Http\Controllers\DP\CursoClasseDisciplinaController@destroy']);
-        Route::get('purgeVinculoDisciplina/{id}', ['as' => 'admin.curso.purgeVinculoDisciplina', 'uses' => 'App\Http\Controllers\DP\CursoClasseDisciplinaController@purge']);
-
-    });
     Route::prefix('categoria_notificacao')->group(function () {
         Route::get('index', ['as' => 'admin.categoria_notificacao.index', 'uses' => 'App\Http\Controllers\DP\CategoriaNotificacaoController@index']);
         Route::get('create', ['as' => 'admin.categoria_notificacao.create', 'uses' => 'App\Http\Controllers\DP\CategoriaNotificacaoController@create']);
@@ -120,8 +82,8 @@ Route::prefix('admin')->group(function(){
         Route::post('update/{id}', ['as' => 'admin.Notificacao.update', 'uses' => 'App\Http\Controllers\DP\NotificacaoController@update']);
         Route::get('destroy/{id}', ['as' => 'admin.Notificacao.destroy', 'uses' => 'App\Http\Controllers\DP\NotificacaoController@destroy']);
         Route::get('purge/{id}', ['as' => 'admin.Notificacao.purge', 'uses' => 'App\Http\Controllers\DP\NotificacaoController@purge']);
+
         Route::get('vizualize', ['as' => 'admin.notificacao.vizualize', 'uses' => 'App\Http\Controllers\DP\NotificacaoController@vizualize']);
-        Route::get('getApartamento', ['as' => 'admin.notificacao.getApartamento', 'uses' => 'App\Http\Controllers\DP\NotificacaoController@getApartamento']);
 
     });
 
@@ -165,43 +127,7 @@ Route::prefix('admin')->group(function(){
         Route::get('destroy/{id}', ['as' => 'admin.disciplina.destroy', 'uses' => 'App\Http\Controllers\DP\DisciplinaController@destroy']);
         Route::get('purge/{id}', ['as' => 'admin.disciplina.purge', 'uses' => 'App\Http\Controllers\DP\DisciplinaController@purge']);
     });
-    Route::prefix('plano_aula')->group(function () {
-        Route::get('index', ['as' => 'admin.plano_aula.index', 'uses' => 'App\Http\Controllers\DP\PlanoAulaController@index']);
-        Route::get('create', ['as' => 'admin.plano_aula.create', 'uses' => 'App\Http\Controllers\DP\PlanoAulaController@create']);
-        Route::post('store', ['as' => 'admin.plano_aula.store', 'uses' => 'App\Http\Controllers\DP\PlanoAulaController@store']);
-        Route::get('edit/{id}', ['as' => 'admin.plano_aula.edit', 'uses' => 'App\Http\Controllers\DP\PlanoAulaController@edit']);
-        Route::post('update/{id}', ['as' => 'admin.plano_aula.update', 'uses' => 'App\Http\Controllers\DP\PlanoAulaController@update']);
-        Route::get('destroy/{id}', ['as' => 'admin.plano_aula.destroy', 'uses' => 'App\Http\Controllers\DP\PlanoAulaController@destroy']);
-        Route::get('purge/{id}', ['as' => 'admin.plano_aula.purge', 'uses' => 'App\Http\Controllers\DP\PlanoAulaController@purge']);
-    });
-    Route::prefix('projeto')->group(function () {
-        Route::get('index', ['as' => 'admin.projeto.index', 'uses' => 'App\Http\Controllers\DP\ProjetoController@index']);
-        Route::get('create', ['as' => 'admin.projeto.create', 'uses' => 'App\Http\Controllers\DP\ProjetoController@create']);
-        Route::post('store', ['as' => 'admin.projeto.store', 'uses' => 'App\Http\Controllers\DP\ProjetoController@store']);
-        Route::get('edit/{id}', ['as' => 'admin.projeto.edit', 'uses' => 'App\Http\Controllers\DP\ProjetoController@edit']);
-        Route::post('update/{id}', ['as' => 'admin.projeto.update', 'uses' => 'App\Http\Controllers\DP\ProjetoController@update']);
-        Route::get('destroy/{id}', ['as' => 'admin.projeto.destroy', 'uses' => 'App\Http\Controllers\DP\ProjetoController@destroy']);
-        Route::get('purge/{id}', ['as' => 'admin.projeto.purge', 'uses' => 'App\Http\Controllers\DP\ProjetoController@purge']);
-    });
-    Route::prefix('servico')->group(function () {
-        Route::get('index', ['as' => 'admin.servico.index', 'uses' => 'App\Http\Controllers\DP\ServicoController@index']);
-        Route::get('create', ['as' => 'admin.servico.create', 'uses' => 'App\Http\Controllers\DP\ServicoController@create']);
-        Route::post('store', ['as' => 'admin.servico.store', 'uses' => 'App\Http\Controllers\DP\ServicoController@store']);
-        Route::post('emitirDocumento', ['as' => 'admin.servico.emitirDocumento', 'uses' => 'App\Http\Controllers\DP\ServicoController@emitirDocumento']);
-        Route::get('edit/{id}', ['as' => 'admin.servico.edit', 'uses' => 'App\Http\Controllers\DP\ServicoController@edit']);
-        Route::post('update/{id}', ['as' => 'admin.servico.update', 'uses' => 'App\Http\Controllers\DP\ServicoController@update']);
-        Route::get('destroy/{id}', ['as' => 'admin.servico.destroy', 'uses' => 'App\Http\Controllers\DP\ServicoController@destroy']);
-        Route::get('purge/{id}', ['as' => 'admin.servico.purge', 'uses' => 'App\Http\Controllers\DP\ServicoController@purge']);
-    });
-    Route::prefix('rupe')->group(function () {
-        Route::get('index', ['as' => 'admin.rupe.index', 'uses' => 'App\Http\Controllers\DP\RupeController@index']);
-        Route::get('create', ['as' => 'admin.rupe.create', 'uses' => 'App\Http\Controllers\DP\RupeController@create']);
-        Route::post('store', ['as' => 'admin.rupe.store', 'uses' => 'App\Http\Controllers\DP\RupeController@store']);
-        Route::get('edit/{id}', ['as' => 'admin.rupe.edit', 'uses' => 'App\Http\Controllers\DP\RupeController@edit']);
-        Route::post('update/{id}', ['as' => 'admin.rupe.update', 'uses' => 'App\Http\Controllers\DP\RupeController@update']);
-        Route::get('destroy/{id}', ['as' => 'admin.rupe.destroy', 'uses' => 'App\Http\Controllers\DP\RupeController@destroy']);
-        Route::get('purge/{id}', ['as' => 'admin.rupe.purge', 'uses' => 'App\Http\Controllers\DP\RupeController@purge']);
-    });
+
     Route::prefix('ano')->group(function () {
         Route::get('index', ['as' => 'admin.ano.index', 'uses' => 'App\Http\Controllers\DP\AnoController@index']);
         Route::get('create', ['as' => 'admin.ano.create', 'uses' => 'App\Http\Controllers\DP\AnoController@create']);
@@ -219,33 +145,6 @@ Route::prefix('admin')->group(function(){
         Route::post('update/{id}', ['as' => 'admin.turma.update', 'uses' => 'App\Http\Controllers\DP\TurmaController@update']);
         Route::get('destroy/{id}', ['as' => 'admin.turma.destroy', 'uses' => 'App\Http\Controllers\DP\TurmaController@destroy']);
         Route::get('purge/{id}', ['as' => 'admin.turma.purge', 'uses' => 'App\Http\Controllers\DP\TurmaController@purge']);
-    });
-    Route::prefix('horario')->group(function () {
-        Route::get('index', ['as' => 'admin.horario.index', 'uses' => 'App\Http\Controllers\DP\HorarioController@index']);
-        Route::get('create', ['as' => 'admin.horario.create', 'uses' => 'App\Http\Controllers\DP\HorarioController@create']);
-        Route::post('store', ['as' => 'admin.horario.store', 'uses' => 'App\Http\Controllers\DP\HorarioController@store']);
-        Route::get('edit/{id}', ['as' => 'admin.horario.edit', 'uses' => 'App\Http\Controllers\DP\HorarioController@edit']);
-        Route::post('update/{id}', ['as' => 'admin.horario.update', 'uses' => 'App\Http\Controllers\DP\HorarioController@update']);
-        Route::get('destroy/{id}', ['as' => 'admin.horario.destroy', 'uses' => 'App\Http\Controllers\DP\HorarioController@destroy']);
-        Route::get('purge/{id}', ['as' => 'admin.horario.purge', 'uses' => 'App\Http\Controllers\DP\HorarioController@purge']);
-    });
-    Route::prefix('categoria_livro')->group(function () {
-        Route::get('index', ['as' => 'admin.categoria_livro.index', 'uses' => 'App\Http\Controllers\DP\CategoriaLivroController@index']);
-        Route::get('create', ['as' => 'admin.categoria_livro.create', 'uses' => 'App\Http\Controllers\DP\CategoriaLivroController@create']);
-        Route::post('store', ['as' => 'admin.categoria_livro.store', 'uses' => 'App\Http\Controllers\DP\CategoriaLivroController@store']);
-        Route::get('edit/{id}', ['as' => 'admin.categoria_livro.edit', 'uses' => 'App\Http\Controllers\DP\CategoriaLivroController@edit']);
-        Route::post('update/{id}', ['as' => 'admin.categoria_livro.update', 'uses' => 'App\Http\Controllers\DP\CategoriaLivroController@update']);
-        Route::get('destroy/{id}', ['as' => 'admin.categoria_livro.destroy', 'uses' => 'App\Http\Controllers\DP\CategoriaLivroController@destroy']);
-        Route::get('purge/{id}', ['as' => 'admin.categoria_livro.purge', 'uses' => 'App\Http\Controllers\DP\CategoriaLivroController@purge']);
-    });
-    Route::prefix('livro')->group(function () {
-        Route::get('index', ['as' => 'admin.livro.index', 'uses' => 'App\Http\Controllers\DP\LivroController@index']);
-        Route::get('create', ['as' => 'admin.livro.create', 'uses' => 'App\Http\Controllers\DP\LivroController@create']);
-        Route::post('store', ['as' => 'admin.livro.store', 'uses' => 'App\Http\Controllers\DP\LivroController@store']);
-        Route::get('edit/{id}', ['as' => 'admin.livro.edit', 'uses' => 'App\Http\Controllers\DP\LivroController@edit']);
-        Route::post('update/{id}', ['as' => 'admin.livro.update', 'uses' => 'App\Http\Controllers\DP\LivroController@update']);
-        Route::get('destroy/{id}', ['as' => 'admin.livro.destroy', 'uses' => 'App\Http\Controllers\DP\LivroController@destroy']);
-        Route::get('purge/{id}', ['as' => 'admin.livro.purge', 'uses' => 'App\Http\Controllers\DP\LivroController@purge']);
     });
     Route::prefix('matricula')->group(function () {
         Route::get('index', ['as' => 'admin.matricula.index', 'uses' => 'App\Http\Controllers\DP\MatriculaController@index']);
@@ -297,7 +196,7 @@ Route::prefix('admin')->group(function(){
         Route::get('index', ['as' => 'admin.frequencia.index', 'uses' => 'App\Http\Controllers\DP\FrequenciaController@index']);
         Route::post('lancarFrequencia', ['as' => 'admin.frequencia.lancarFrequencia', 'uses' => 'App\Http\Controllers\DP\FrequenciaController@lancarFrequencia']);
         Route::post('verFrequencia', ['as' => 'admin.frequencia.verFrequencia', 'uses' => 'App\Http\Controllers\DP\FrequenciaController@verFrequencia']);
-        Route::post('registarFrequencia/{disciplina_id}/{data_atual}', ['as' => 'admin.frequencia.registarFrequencia', 'uses' => 'App\Http\Controllers\DP\FrequenciaController@registarFrequencia']);
+        Route::post('registarFrequencia/', ['as' => 'admin.frequencia.registarFrequencia', 'uses' => 'App\Http\Controllers\DP\FrequenciaController@registarFrequencia']);
     });
     Route::prefix('falta')->group(function () {
         Route::get('justificar', ['as' => 'admin.falta.justificar', 'uses' => 'App\Http\Controllers\DP\FaltaController@justificar']);
@@ -329,50 +228,4 @@ Route::prefix('aluno')->middleware('auth')->group(function()
     Route::get('emitirRupeDeclaracao', ['as' => 'admin.aluno.emitirRupeDeclaracao', 'uses' => 'App\Http\Controllers\MDA\AlunoController@emitirRupeDeclaracao']);
     Route::post('solicitaDeclaracao', ['as' => 'admin.aluno.solicitaDeclaracao', 'uses' => 'App\Http\Controllers\MDA\AlunoController@solicitaDeclaracao']);
 
-});
-Route::prefix('loja')->group(function () {
-    //Rota de listar
-    Route::get('index', ['as' => 'admin.loja.index', 'uses' => 'App\Http\Controllers\Admin\LojaController@index']);
-    //Rota para armazenar
-    Route::post('store', ['as' => 'admin.loja.store', 'uses' => 'App\Http\Controllers\Admin\LojaController@store']);
-    //Rota para actualizar
-    Route::post('update/{id}', ['as' => 'admin.loja.update', 'uses' => 'App\Http\Controllers\Admin\LojaController@update']);
-    //Rota para marcar como eliminado
-    Route::get('destroy/{id}', ['as' => 'admin.loja.destroy', 'uses' => 'App\Http\Controllers\Admin\LojaController@destroy']);
-    //Rota de eliminar/purgar
-    Route::get('purge/{id}', ['as' => 'admin.loja.purge', 'uses' => 'App\Http\Controllers\Admin\LojaController@purge']);
-});
-Route::prefix('produto')->group(function () {
-    //Rota de listar
-
-    Route::get('index', ['as' => 'admin.produto.index', 'uses' => 'App\Http\Controllers\Admin\ProdutoController@index']);
-    //Rota de cadastrar
-    Route::post('store', ['as' => 'admin.produto.store', 'uses' => 'App\Http\Controllers\Admin\ProdutoController@store']);
-    //Rota de actualizar
-    Route::post('update/{id}', ['as' => 'admin.produto.update', 'uses' => 'App\Http\Controllers\Admin\ProdutoController@update']);
-    //Rota de marcar como eliminado
-    Route::get('destroy/{id}', ['as' => 'admin.produto.destroy', 'uses' => 'App\Http\Controllers\Admin\ProdutoController@destroy']);
-    //Rota de eliminar
-    Route::get('purge/{id}', ['as' => 'admin.produto.purge', 'uses' => 'App\Http\Controllers\Admin\ProdutoController@purge']);
-});
-Route::prefix('venda')->group(function () {
-//Rota para listar as actividades
-
-    Route::get('index', ['as' => 'admin.vendas.index', 'uses' => 'App\Http\Controllers\Admin\VendaController@index']);
-});
-Route::prefix('cheque')->group(function () {
-    //Rota de listar
-    Route::get('index', ['as' => 'admin.cheque.index', 'uses' => 'App\Http\Controllers\Admin\ChequeController@index']);
-    //Rota de cadastrar
-    Route::post('store', ['as' => 'admin.cheque.store', 'uses' => 'App\Http\Controllers\Admin\ChequeController@store']);
-        //Rota de actualizar
-
-
-    Route::post('update/{id}', ['as' => 'admin.cheque.update', 'uses' => 'App\Http\Controllers\Admin\ChequeController@update']);
-//Rota de marcar como eliminado
-
-    Route::get('destroy/{id}', ['as' => 'admin.cheque.destroy', 'uses' => 'App\Http\Controllers\Admin\ChequeController@destroy']);
-//Rota de eliminar
-
-    Route::get('purge/{id}', ['as' => 'admin.cheque.purge', 'uses' => 'App\Http\Controllers\Admin\ChequeController@purge']);
 });

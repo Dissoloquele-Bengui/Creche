@@ -2,7 +2,7 @@
 @section('titulo','Actualizar propina')
 
 @section('conteudo')
-    <div class="card shadow mb-4">
+    <div class="mb-4 shadow card">
         <div class="card-header">
         <strong class="card-title">Actualizar propina</strong>
         </div>
@@ -14,4 +14,22 @@
             </div>
         </form>
     </div>
+@if (session('Propina.update.success'))
+    <script>
+        Swal.fire(
+            'Propina Actualizada com sucesso!',
+            '',
+            'success'
+        )
+    </script>
+@endif
+@if (session('Propina.update.error'))
+    <script>
+        Swal.fire(
+            'Erro ao Actualizar Propina!',
+            '',
+            'error'
+        )
+    </script>
+  @endif
 @endsection

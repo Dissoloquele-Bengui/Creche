@@ -35,9 +35,9 @@ class TurmaController extends Controller
     {
         //
         $anos=AnoLectivo::all();
-        $cursos=Curso::all();
+
         $classes=Classe::all();
-        return view('admin.turma.create.index',['anos'=>$anos,'cursos'=>$cursos,'classes'=>$classes]);
+        return view('admin.turma.create.index',['anos'=>$anos,'classes'=>$classes]);
     }
 
     /**
@@ -78,10 +78,10 @@ class TurmaController extends Controller
     public function show()
     {
         $anos=AnoLectivo::all();
-        $cursos=Curso::all();
+
         $classes=Classe::all();
         $turmas = Turma::all();
-        return view('admin.turma.edit.index',['turmas'=>$turmas,'anos'=>$anos,'cursos'=>$cursos,'classes'=>$classes]);
+        return view('admin.turma.edit.index',['turmas'=>$turmas,'anos'=>$anos,'classes'=>$classes]);
     }
     /**
      * Show the form for editing the specified resource.

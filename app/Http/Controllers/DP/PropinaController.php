@@ -70,19 +70,28 @@ class PropinaController extends Controller
         //
         $propina=Propina::findOrFail($id);
         //dd($propina);
+
         return view('admin.propina.pagamento.pagar',['propina'=>$propina]);
     }
     public function pagarPropina(Request $request)
     {
         try {
-            //dd($request);
+            $pagamento_anterior = Pagamento::where('matricula_id',$request->matricula_id)
+            ->where('propina_id',$request->propina_id)
+            ->first();
+            $propina = Propina::find($request->propina_id);
+            //dd([$pagamento_anterior,$propina]);
+            if($pagamento_anterior != null && (($pagamento_anterior->valor + $request->valor) > $propina->limite ) ){
+                return redirect()->back()->with('Propina.create.error', 1);
+
+            }
+
             $pagamento = Pagamento::create([
                 'valor' => $request->valor,
                 'matricula_id' => $request->matricula_id,
                 'propina_id' => $request->propina_id,
                 'data'=> $request->data
             ]);
-            //dd($propina);
 
             return redirect()->back()->with('Propina.create.success', 1);
         } catch (\Throwable $th) {
@@ -133,6 +142,7 @@ class PropinaController extends Controller
     {
         //
         $data["propina"] = Propina::find($id);
+        $data['classes']=Classe::all();
         $data['anos']=AnoLectivo::all();
         return view('admin.propina.edit.index',$data);
     }

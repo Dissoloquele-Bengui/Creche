@@ -38,6 +38,7 @@ class FrequenciaController extends Controller
     }
     public function verFrequencia(Request $request)
     {
+        //dd($request);
         $dados['data_atual']=$request->data;
         $dados['turma'] = Turma::join('classes', 'turmas.idClasse', '=', 'classes.id')
             ->join('ano_lectivos', 'turmas.idAno', '=', 'ano_lectivos.id')
@@ -101,7 +102,7 @@ class FrequenciaController extends Controller
         return view('admin.frequencia.presenca.registar', $dados);
     }
 
-    public function registarFrequencia(Request $request, $disciplina_id,$data_atual)
+    public function registarFrequencia(Request $request)
     {
         //dd($data_atual);
         $frequencia = $request->input('frequencia');
@@ -111,7 +112,7 @@ class FrequenciaController extends Controller
                     $valor=$id[$idMatricula];
                     //dd($valor);
                     $frequencia = Frequencia::where('matricula_id', $idMatricula)
-                        ->where('data_aula',$data_atual)
+                        ->where('data_aula',$request->data_atual)
                         ->first();
                     // Atualiza ou cria uma nova avaliação
                     if ($frequencia) {
@@ -119,7 +120,7 @@ class FrequenciaController extends Controller
                         $frequencia->save();
                     } else {
                         $frequencia=Frequencia::create([
-                            'data_aula' => $data_atual,
+                            'data_aula' => $request->data_atual,
                             'matricula_id' => $idMatricula,
                             'presenca' => $valor,
                         ]);
@@ -127,7 +128,7 @@ class FrequenciaController extends Controller
                     //dd($frequencia);
 
                 }
-                return redirect()->route('admin.frequencia.registar')->with('Frequencia.update.success', 1);
+                return redirect()->route('admin.frequencia.presenca')->with('Frequencia.update.success', 1);
             } catch (\Throwable $th) {
                 dd($th);
                 return redirect()->route('admin.frequencia.presenca')->withInput()->with('Frequencia.create.error', 1);

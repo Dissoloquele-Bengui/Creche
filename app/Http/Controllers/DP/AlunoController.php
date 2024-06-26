@@ -59,7 +59,6 @@ class AlunoController extends Controller
     public function create()
     {
         //
-        $data['cursos']=Curso::all();
         $data['classes']=Classe::all();
         $data['users']=User::where('tipo',"Encarregado")
         ->select('users.*')
@@ -110,7 +109,7 @@ class AlunoController extends Controller
                 ->get();
 
             foreach($turmas as $turma){
-                if(Matricula::where('turma_id')->count()<$turma->limite){
+                if(Matricula::where('turma_id',$turma->id)->count()<$turma->limite){
                     Matricula::create([
                         'aluno_id'=>$aluno->id,
                         'turma_id'=>$turma->id,
@@ -153,7 +152,6 @@ class AlunoController extends Controller
     public function edit($id)
     {
         //
-        $data['cursos']=Curso::all();
         $data['classes']=Classe::all();
         $data["aluno"] = Aluno::leftJoin('users','users.id','alunos.user_id')
             ->select('users.name as nome_responsavel','users.contacto as contato_responsavel','alunos.*')
@@ -199,7 +197,7 @@ class AlunoController extends Controller
                 'user_id'=>$request->encarregado_id,
             ]);
             //dd($c);
-            $this->loggerData(" Editou o aluno  de id".$aluno->id);
+            $this->loggerData(" Editou o aluno  de id ".$aluno->id);
             return redirect()->back()->with('aluno.update.success',1);
 
          } catch (\Throwable $th) {

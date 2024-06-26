@@ -67,7 +67,7 @@
         <li class="nav-item">
             <a href="/" class="nav-link">
                 <i class="fe fe-home fe-16"></i>
-                <span class="ml-3 item-text">Dashboard</span><span class="sr-only">(current)</span>
+                <span class="ml-3 item-text">SITE</span><span class="sr-only">(current)</span>
             </a>
         </li>
         <li class="nav-item">

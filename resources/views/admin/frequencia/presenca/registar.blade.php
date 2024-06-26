@@ -7,8 +7,9 @@
             <strong class="card-title">Registrar Frequencias da Turma {{ $turma->nome }}</strong>
 
         </div>
-        <form action="" method="POST">
+        <form action="{{route('admin.frequencia.registarFrequencia')}}" method="POST">
             @csrf
+            <input type="hidden" name="data_atual" value="{{$data_atual}}"">
             <div class="card-body">
                 <div class="pb-3 row justify-content-end">
 

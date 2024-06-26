@@ -30,8 +30,11 @@ class EncarregadoController extends Controller
     public function index(){
 
         $data['encarregados'] = User::where('tipo',"Encarregado")
-            ->get();
+        ->get();
         $data['encarregado_view']=true;
+        if(Auth::user()->tipo == "Encarregado"){
+            $data['encarregados'] = $data['encarregados']->where('id',Auth::id());
+        }
         $this->loggerData("Listou Encarregados");
 
         return view('admin.encarregado.index', $data);
