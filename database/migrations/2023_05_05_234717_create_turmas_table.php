@@ -14,9 +14,10 @@ return new class extends Migration
             $table->unsignedBigInteger('idCurso');
             $table->unsignedBigInteger('idClasse');
             $table->unsignedBigInteger('idAno');
+            $table->integer('limite')->nullable();
             $table->foreign('idAno')->references('id')->on('ano_lectivos')->onDelete('cascade');
             $table->foreign('idClasse')->references('id')->on('classes')->onDelete('cascade');
-            $table->foreign('idCurso')->references('id')->on('cursos')->onDelete('cascade');
+            //$table->foreign('idCurso')->references('id')->on('cursos')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

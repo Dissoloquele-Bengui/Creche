@@ -10,11 +10,14 @@ return new class extends Migration
     {
         Schema::create('professors', function (Blueprint $table) {
             $table->id();
+            $table->date('data_nascimento')->nullable();
+            $table->string('contacto')->nullable();
+            $table->string('bi')->nullable();
+            $table->string('endereco')->nullable();
+            $table->string('genero')->nullable();
+            $table->string('nome')->nullable();
             $table->string('area_especializacao');
             $table->date('data_contratacao');
-            $table->decimal('salario', 8, 2);
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });
