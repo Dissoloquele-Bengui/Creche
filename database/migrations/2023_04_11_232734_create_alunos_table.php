@@ -14,19 +14,18 @@ return new class extends Migration
         Schema::create('alunos', function (Blueprint $table) {
             $table->id();
             $table->integer('idade')->nullable();
+            $table->date('data_nascimento')->nullable();
+            $table->string('nome')->nullable();
+            $table->string('sobrenome')->nullable();
             $table->string('nacionalidade');
             $table->string('naturalidade');
             $table->string('deficiencia');
-            $table->string('estado_civil');
             $table->string('provincia');
             $table->string('numero_telefone');
             $table->string('nome_responsavel');
             $table->string('nome_pai');
             $table->string('nome_mae');
-            $table->string('contato_responsavel');
             $table->string('parentesco_responsavel');
-            $table->string('escola_anterior')->nullable();
-            $table->string('certificados')->nullable();
             $table->string('vc_foto')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

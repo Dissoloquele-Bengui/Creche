@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('turma_professors', function (Blueprint $table) {
             $table->id();
             $table->UnsignedBigInteger('professor_id');
+            $table->date('data_termino')->nullable();
             $table->UnsignedBigInteger('turma_id');
             $table->foreign('professor_id')->references('id')->on('professors')->onDelete('cascade');
             $table->foreign('turma_id')->references('id')->on('turmas')->onDelete('cascade');
@@ -27,8 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        $table->dropForeign('professor_id');
-        $table->dropForeign('turma_id');
         Schema::dropIfExists('turma_professors');
     }
 };
